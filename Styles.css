@@ -1,43 +1,337 @@
+/* ===========================
+   VARIABLES
+=========================== */
+
+:root{
+    --color-primario:#2563eb;
+    --color-secundario:#3b82f6;
+    --color-fondo:#f8fafc;
+    --color-card:#ffffff;
+    --color-texto:#1e293b;
+    --color-gris:#64748b;
+    --color-hover:#1d4ed8;
+
+    --radio:18px;
+    --sombra:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ===========================
+   RESET
+=========================== */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f4f4f4;
-    color:#333;
+
+html{
+    scroll-behavior:smooth;
 }
 
-header{
-    background:#0d6efd;
-    color:white;
-    text-align:center;
-    padding:25px;
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--color-fondo);
+    color:var(--color-texto);
 }
+
+/* ===========================
+   HERO
+=========================== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    color:white;
+}
+
+.hero-contenido{
+    max-width:700px;
+}
+
+.hero h1{
+    font-size:3.2rem;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:1.2rem;
+    line-height:1.6;
+    margin-bottom:35px;
+}
+
+.btn-comenzar{
+    display:inline-block;
+    text-decoration:none;
+    background:white;
+    color:var(--color-primario);
+    padding:16px 45px;
+    border-radius:50px;
+    transition:.3s;
+    font-size:1rem;
+}
+
+.btn-comenzar:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--sombra);
+}
+
+
+
+/* ===========================
+   MAIN
+=========================== */
 
 main{
     width:90%;
-    max-width:900px;
-    margin:30px auto;
+    max-width:1200px;
+    margin:auto;
+    padding:70px 0;
 }
 
 section{
-    background:white;
-    margin-bottom:20px;
-    padding:20px;
-    border-radius:10px;
+    margin-bottom:0px;
 }
 
-h2{
+section h2{
+    text-align:center;
+    margin-bottom:40px;
+    font-size:2rem;
+}
+
+/* ===========================
+   TARJETAS
+=========================== */
+
+.cards-introduccion,
+.cards-competencias{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+
+}
+
+.card{
+
+    background:var(--color-card);
+    border-radius:var(--radio);
+    padding:30px;
+    text-align:center;
+    box-shadow:var(--sombra);
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.card span{
+
+    font-size:3rem;
+    display:block;
     margin-bottom:15px;
+
 }
 
-p{
-    text-align:justify;
-    line-height:1.6;
-}
+.card h3{
 
-li{
     margin-bottom:10px;
+
+}
+
+.card p{
+
+    color:var(--color-gris);
+    line-height:1.5;
+
+}
+
+/* ===========================
+   TEMAS
+=========================== */
+
+.contenedor-temas{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+
+}
+
+.contenedor-temas button{
+
+    border:none;
+    background:var(--color-card);
+    box-shadow:var(--sombra);
+    border-radius:var(--radio);
+    padding:30px;
+    cursor:pointer;
+    font-size:1.1rem;
+    transition:.3s;
+
+}
+
+.contenedor-temas button:hover{
+
+    background:var(--color-primario);
+    color:white;
+    transform:scale(1.04);
+
+}
+
+/* ===========================
+   CONVERSOR Y EVALUACIÓN
+=========================== */
+
+#conversor,
+#evaluacion{
+
+    background:white;
+    border-radius:var(--radio);
+    padding:40px;
+    box-shadow:var(--sombra);
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+.hero h1{
+
+    font-size:2.3rem;
+
+}
+
+.hero p{
+
+    font-size:1rem;
+
+}
+
+section h2{
+
+    font-size:1.7rem;
+
+}
+
+}
+
+/*==============================
+MENU
+==============================*/
+
+header{
+
+    background:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+
+}
+
+nav{
+
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 0;
+
+}
+
+nav h2{
+
+    color:var(--color-primario);
+
+}
+
+nav ul{
+
+    display:flex;
+    gap:30px;
+    list-style:none;
+
+}
+
+nav a{
+
+    text-decoration:none;
+    color:var(--color-texto);
+    font-weight:bold;
+    transition:.3s;
+
+}
+
+nav a:hover{
+
+    color:var(--color-primario);
+
+}
+
+/*==============================
+BOTON HERO
+==============================*/
+
+.btn-comenzar{
+
+    display:inline-block;
+    margin-top:20px;
+
+    padding:16px 45px;
+
+    background:white;
+
+    color:var(--color-primario);
+
+    text-decoration:none;
+
+    border-radius:50px;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.btn-comenzar:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:var(--sombra);
+
+}
+
+@media(max-width:768px){
+
+nav{
+
+    flex-direction:column;
+    gap:20px;
+
+}
+
+nav ul{
+
+    flex-wrap:wrap;
+    justify-content:center;
+
+}
+
 }
