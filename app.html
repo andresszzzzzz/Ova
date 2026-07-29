@@ -23,11 +23,8 @@
             <ul>
 
                 <li><a href="#introduccion">Inicio</a></li>
-
                 <li><a href="#contenidos">Temas</a></li>
-
                 <li><a href="#conversor">Conversor</a></li>
-
                 <li><a href="#evaluacion">Evaluación</a></li>
 
             </ul>
@@ -37,6 +34,8 @@
     </header>
 
     <main>
+
+        <!-- INTRODUCCIÓN -->
 
         <section id="introduccion">
 
@@ -72,6 +71,8 @@
 
         </section>
 
+        <!-- COMPETENCIAS -->
+
         <section id="competencias">
 
             <h2>¿Qué aprenderás?</h2>
@@ -94,6 +95,8 @@
 
         </section>
 
+        <!-- TEMAS -->
+
         <section id="contenidos">
 
             <h2>¿Qué deseas aprender?</h2>
@@ -108,7 +111,9 @@
 
                     <p>Segundos, minutos, horas y días.</p>
 
-                    <button>Aprender</button>
+                    <button onclick="mostrarTema('tiempo')">
+                        Aprender
+                    </button>
 
                 </article>
 
@@ -120,7 +125,9 @@
 
                     <p>Milímetros, centímetros, metros y kilómetros.</p>
 
-                    <button>Aprender</button>
+                    <button onclick="mostrarTema('longitud')">
+                        Aprender
+                    </button>
 
                 </article>
 
@@ -132,7 +139,9 @@
 
                     <p>Miligramos, gramos y kilogramos.</p>
 
-                    <button>Aprender</button>
+                    <button onclick="mostrarTema('masa')">
+                        Aprender
+                    </button>
 
                 </article>
 
@@ -144,7 +153,9 @@
 
                     <p>Mililitros, litros y centímetros cúbicos.</p>
 
-                    <button>Aprender</button>
+                    <button onclick="mostrarTema('volumen')">
+                        Aprender
+                    </button>
 
                 </article>
 
@@ -152,11 +163,38 @@
 
         </section>
 
+        <!-- INFORMACIÓN -->
+
+        <section id="informacion">
+
+            <h2>Aprende</h2>
+
+            <div class="info-card">
+
+                <h3 id="tituloTema">
+                    Selecciona una magnitud
+                </h3>
+
+                <p id="descripcionTema">
+
+                    Pulsa el botón <strong>Aprender</strong> de cualquiera
+                    de las tarjetas para visualizar la información.
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- CONVERSOR -->
+
         <section id="conversor">
 
             <h2>Conversor Interactivo</h2>
 
         </section>
+
+        <!-- EVALUACIÓN -->
 
         <section id="evaluacion">
 
@@ -166,7 +204,7 @@
 
     </main>
 
-    <script src="js/script.js"></script>
+    <script src="./js.js"></script>
 
 </body>
 

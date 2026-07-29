@@ -413,3 +413,35 @@ TEMAS
     background:var(--color-hover);
 
 }
+
+#informacion{
+
+    margin-top:80px;
+
+}
+
+.info-card{
+
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:var(--sombra);
+    text-align:center;
+
+}
+
+.info-card h3{
+
+    font-size:2rem;
+    margin-bottom:20px;
+
+}
+
+.info-card p{
+
+    color:var(--color-gris);
+    line-height:1.7;
+    max-width:700px;
+    margin:auto;
+
+}
