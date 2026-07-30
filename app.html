@@ -188,11 +188,76 @@
 
         <!-- CONVERSOR -->
 
-        <section id="conversor">
+       <section id="conversor">
 
-            <h2>Conversor Interactivo</h2>
+    <h2>Conversor Interactivo</h2>
 
-        </section>
+    <div class="conversor-card">
+
+        <div class="campo">
+
+            <label>Valor</label>
+
+            <input type="number" id="valor" placeholder="Ej: 100">
+
+        </div>
+
+        <div class="campo">
+
+            <label>Magnitud</label>
+
+            <select id="magnitud">
+
+                <option value="longitud">Longitud</option>
+                <option value="masa">Masa</option>
+                <option value="tiempo">Tiempo</option>
+                <option value="volumen">Volumen</option>
+
+            </select>
+
+        </div>
+
+        <div class="campo">
+
+            <label>Unidad origen</label>
+
+            <select id="origen">
+
+                <option>Selecciona una magnitud</option>
+
+            </select>
+
+        </div>
+
+        <div class="campo">
+
+            <label>Unidad destino</label>
+
+            <select id="destino">
+
+                <option>Selecciona una magnitud</option>
+
+            </select>
+
+        </div>
+
+        <button id="btnConvertir">
+            Convertir
+        </button>
+
+        <div class="resultado">
+
+            <h3>Resultado</h3>
+
+            <p id="resultado">
+                Aquí aparecerá el resultado.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
         <!-- EVALUACIÓN -->
 
