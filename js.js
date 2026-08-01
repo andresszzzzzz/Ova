@@ -1,288 +1,299 @@
-// ==========================================
-// 1. BASE DE DATOS DE MAGNITUDES Y FACTORES
-// ==========================================
-const unidades = {
-    tiempo: [
-        { id: 's', nombre: 'Segundos (s)', factor: 1 },
-        { id: 'min', nombre: 'Minutos (min)', factor: 60 },
-        { id: 'h', nombre: 'Horas (h)', factor: 3600 },
-        { id: 'dia', nombre: 'Días', factor: 86400 }
-    ],
-    longitud: [
-        { id: 'm', nombre: 'Metros (m)', factor: 1 },
-        { id: 'cm', nombre: 'Centímetros (cm)', factor: 0.01 },
-        { id: 'km', nombre: 'Kilómetros (km)', factor: 1000 },
-        { id: 'in', nombre: 'Pulgadas (in)', factor: 0.0254 }
-    ],
-    masa: [
-        { id: 'kg', nombre: 'Kilogramos (kg)', factor: 1 },
-        { id: 'g', nombre: 'Gramos (g)', factor: 0.001 },
-        { id: 'lb', nombre: 'Libras (lb)', factor: 0.453592 },
-        { id: 'oz', nombre: 'Onzas (oz)', factor: 0.0283495 }
-    ],
-    volumen: [
-        { id: 'l', nombre: 'Litros (L)', factor: 1 },
-        { id: 'ml', nombre: 'Mililitros (mL)', factor: 0.001 },
-        { id: 'cm3', nombre: 'Centímetros Cúbicos (cm³)', factor: 0.001 }
-    ]
-};
+document.addEventListener("DOMContentLoaded", () => {
+    // Definición de unidades y factores de conversión hacia una unidad base
+    const unidadesData = {
+        tiempo: {
+            base: "s",
+            unidades: {
+                s: { nombre: "Segundos (s)", factor: 1 },
+                min: { nombre: "Minutos (min)", factor: 60 },
+                h: { nombre: "Horas (h)", factor: 3600 },
+                d: { nombre: "Días (d)", factor: 86400 }
+            }
+        },
+        longitud: {
+            base: "m",
+            unidades: {
+                mm: { nombre: "Milímetros (mm)", factor: 0.001 },
+                cm: { nombre: "Centímetros (cm)", factor: 0.01 },
+                m: { nombre: "Metros (m)", factor: 1 },
+                km: { nombre: "Kilómetros (km)", factor: 1000 }
+            }
+        },
+        masa: {
+            base: "g",
+            unidades: {
+                mg: { nombre: "Miligramos (mg)", factor: 0.001 },
+                g: { nombre: "Gramos (g)", factor: 1 },
+                kg: { nombre: "Kilogramos (kg)", factor: 1000 },
+                lb: { nombre: "Libras (lb)", factor: 453.592 }
+            }
+        },
+        volumen: {
+            base: "L",
+            unidades: {
+                ml: { nombre: "Mililitros (ml)", factor: 0.001 },
+                cm3: { nombre: "Centímetros cúbicos (cm³)", factor: 0.001 },
+                L: { nombre: "Litros (L)", factor: 1 },
+                oz: { nombre: "Onzas líquidas (oz)", factor: 0.0295735 }
+            }
+        }
+    };
 
-// ==========================================
-// 2. INICIALIZACIÓN AL CARGAR LA PÁGINA
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    actualizarOpcionesUnidades();
-    cargarEvaluacion();
-    iniciarFisicasMatterJS(); // Motor físico
-});
+    // Elementos del DOM del conversor
+    const magnitudeSelect = document.getElementById("magnitudeSelect");
+    const unitFrom = document.getElementById("unitFrom");
+    const unitTo = document.getElementById("unitTo");
+    const inputValue = document.getElementById("inputValue");
+    const convertBtn = document.getElementById("convertBtn");
+    const converterResult = document.getElementById("converterResult");
+    const resultValueText = document.getElementById("resultValueText");
+    const resultStepText = document.getElementById("resultStepText");
+    const resultBeginnerText = document.getElementById("resultBeginnerText");
 
-// ==========================================
-// 3. NAVEGACIÓN CONTINUA Y PESTAÑAS
-// ==========================================
-function irASeccion(idSeccion) {
-    const seccion = document.getElementById(idSeccion);
-    if (seccion) {
-        // Calculamos la posición considerando el header fijo para que no tape el título
-        const headerOffset = 140;
-        const elementPosition = seccion.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // Elementos del Modal Personalizado
+    const customModal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
 
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
+    function mostrarModal(mensaje) {
+        modalMessage.textContent = mensaje;
+        customModal.classList.remove("hidden");
+    }
+
+    modalCloseBtn.addEventListener("click", () => {
+        customModal.classList.add("hidden");
+    });
+
+    // Actualizar selectores de unidades dinámicamente
+    function actualizarUnidades() {
+        const magnitudSeleccionada = magnitudeSelect.value;
+        const unidades = unidadesData[magnitudSeleccionada].unidades;
+
+        unitFrom.innerHTML = "";
+        unitTo.innerHTML = "";
+
+        for (let key in unidades) {
+            let option1 = document.createElement("option");
+            option1.value = key;
+            option1.textContent = unidades[key].nombre;
+            unitFrom.appendChild(option1);
+
+            let option2 = document.createElement("option");
+            option2.value = key;
+            option2.textContent = unidades[key].nombre;
+            unitTo.appendChild(option2);
+        }
+        if (unitTo.options.length > 1) {
+            unitTo.selectedIndex = 1;
+        }
+    }
+
+    magnitudeSelect.addEventListener("change", actualizarUnidades);
+    actualizarUnidades();
+
+    // Lógica del Conversor con explicación detallada paso a paso
+    convertBtn.addEventListener("click", () => {
+        const valorRaw = inputValue.value.trim();
+
+        // Validación estricta sin alertas nativas
+        if (valorRaw === "" || isNaN(valorRaw)) {
+            mostrarModal("Por favor, ingrese un valor numérico válido para realizar la conversión.");
+            return;
+        }
+
+        const cantidad = parseFloat(valorRaw);
+        const magnitud = magnitudeSelect.value;
+        const uFromKey = unitFrom.value;
+        const uToKey = unitTo.value;
+
+        const datosMag = unidadesData[magnitud];
+        const factorOrigen = datosMag.unidades[uFromKey].factor;
+        const factorDestino = datosMag.unidades[uToKey].factor;
+
+        // Cálculo operativo
+        const valorEnBase = cantidad * factorOrigen;
+        const resultadoFinal = valorEnBase / factorDestino;
+
+        const nombreOrigen = datosMag.unidades[uFromKey].nombre;
+        const nombreDestino = datosMag.unidades[uToKey].nombre;
+
+        // Mostrar resultados
+        resultValueText.textContent = `${cantidad} ${nombreOrigen} = ${resultadoFinal.toFixed(4)} ${nombreDestino}`;
+
+        resultStepText.innerHTML = `1. Se transformó la unidad de origen (${nombreOrigen}) a su equivalente en la unidad base multiplicando por su factor (${factorOrigen}). Resultado intermedio: ${valorEnBase} ${datosMag.base}.<br>` +
+            `2. Se dividió dicho valor entre el factor de la unidad de destino (${nombreDestino}, factor: ${factorDestino}) obteniendo el valor final exacto.`;
+
+        resultBeginnerText.textContent = `Para alguien que inicia: Imagina que llevas todas tus unidades a una medida estándar (${datosMag.base}) para poder compararlas con facilidad, y luego las divides entre el tamaño de la nueva unidad a la que quieres llegar.`;
+
+        converterResult.classList.remove("hidden");
+    });
+
+    // Inicialización de simulación física con Matter.js
+    function initPhysicsSimulation() {
+        const container = document.getElementById("physics-canvas-container");
+        if (!container || typeof Matter === "undefined") return;
+
+        const { Engine, Render, Runner, Bodies, Composite } = Matter;
+
+        const engine = Engine.create();
+        const render = Render.create({
+            element: container,
+            engine: engine,
+            options: {
+                width: container.clientWidth || 400,
+                height: 180,
+                wireframes: false,
+                background: '#090d16'
+            }
+        });
+
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // Añadir suelo, paredes y cuerpos flotantes representando magnitudes
+        const ground = Bodies.rectangle(200, 170, 400, 20, { isStatic: true, render: { fillStyle: '#39A900' } });
+        const wall1 = Bodies.rectangle(0, 90, 20, 180, { isStatic: true, render: { fillStyle: '#334155' } });
+        const wall2 = Bodies.rectangle(400, 90, 20, 180, { isStatic: true, render: { fillStyle: '#334155' } });
+
+        const block1 = Bodies.circle(120, 40, 20, { restitution: 0.8, render: { fillStyle: '#22c55e' } });
+        const block2 = Bodies.circle(200, 20, 25, { restitution: 0.6, render: { fillStyle: '#00324D' } });
+        const block3 = Bodies.rectangle(280, 30, 30, 30, { restitution: 0.5, render: { fillStyle: '#39A900' } });
+
+        Composite.add(engine.world, [ground, wall1, wall2, block1, block2, block3]);
+    }
+    initPhysicsSimulation();
+
+    // BANCO DE 10 PREGUNTAS DE EVALUACIÓN
+    const preguntasEvaluacion = [
+        {
+            pregunta: "1. ¿Cuántos segundos equivalen a 3 minutos?",
+            opciones: ["a) 90 segundos", "b) 180 segundos", "c) 300 segundos"],
+            correcta: 1,
+            explicacion: "Se multiplica 3 minutos por 60 segundos que tiene cada minuto (3 * 60 = 180)."
+        },
+        {
+            pregunta: "2. Al convertir 2.5 metros a centímetros, el resultado correcto es:",
+            opciones: ["a) 25 cm", "b) 250 cm", "c) 2500 cm"],
+            correcta: 1,
+            explicacion: "1 metro equivale a 100 centímetros, por lo tanto 2.5 * 100 = 250 cm."
+        },
+        {
+            pregunta: "3. ¿Cuál es el equivalente de 1 Kilogramo en gramos?",
+            opciones: ["a) 100 gramos", "b) 1000 gramos", "c) 10,000 gramos"],
+            correcta: 1,
+            explicacion: "El prefijo 'kilo-' indica un factor multiplicador de 1000 gramos."
+        },
+        {
+            pregunta: "4. En volumen, ¿a cuánto equivale 1 Litro en mililitros (ml)?",
+            opciones: ["a) 10 ml", "b) 100 ml", "c) 1000 ml"],
+            correcta: 2,
+            explicacion: "Un litro contiene exactamente 1000 mililitros (y 1000 cm³)."
+        },
+        {
+            pregunta: "5. ¿Qué magnitud física mide el espacio tridimensional ocupado por un cuerpo?",
+            opciones: ["a) Longitud", "b) Volumen", "c) Masa"],
+            correcta: 1,
+            explicacion: "El volumen cuantifica el espacio físico ocupado por materia en tres dimensiones."
+        },
+        {
+            pregunta: "6. Si tienes 500 mililitros de agua, ¿cuántos Litros representa?",
+            opciones: ["a) 0.5 Litros", "b) 5 Litros", "c) 50 Litros"],
+            correcta: 0,
+            explicacion: "Se divide 500 entre 1000 para pasar de mililitros a litros, obteniendo 0.5 L."
+        },
+        {
+            pregunta: "7. ¿Cuál es la equivalencia exacta de 1 centímetro cúbico (cm³) en mililitros?",
+            opciones: ["a) 0.1 ml", "b) 1 ml", "c) 10 ml"],
+            correcta: 1,
+            explicacion: "Por definición de capacidad volumétrica, 1 cm³ es exactamente igual a 1 ml."
+        },
+        {
+            pregunta: "8. Para convertir 7200 segundos a horas, ¿qué operación se debe realizar?",
+            opciones: ["a) Dividir entre 60 y luego entre 60", "b) Multiplicar por 60", "c) Dividir solo entre 24"],
+            correcta: 0,
+            explicacion: "Se divide entre 60 para llegar a minutos, y luego entre 60 para llegar a horas (7200 / 3600 = 2 h)."
+        },
+        {
+            pregunta: "9. ¿A cuántos gramos equivale aproximadamente una libra (lb)?",
+            opciones: ["a) 250 g", "b) 453.59 g", "c) 1000 g"],
+            correcta: 1,
+            explicacion: "Una libra estándar equivale a 453.592 gramos o 0.45359 kg."
+        },
+        {
+            pregunta: "10. ¿Por qué es importante dominar los factores de conversión en la industria?",
+            opciones: ["a) Para evitar errores graves de cálculo en diseño y formulaciones", "b) Únicamente para pasar exámenes teóricos", "c) No tiene aplicación práctica real"],
+            correcta: 0,
+            explicacion: "Garantiza la correcta ejecución de fórmulas, dosificaciones y normativas técnicas y de seguridad."
+        }
+    ];
+
+    const quizContainer = document.getElementById("quizContainer");
+    const submitQuizBtn = document.getElementById("submitQuizBtn");
+    const quizScoreContainer = document.getElementById("quizScoreContainer");
+
+    // Renderizar cuestionario
+    function renderQuiz() {
+        if (!quizContainer) return;
+        quizContainer.innerHTML = "";
+        preguntasEvaluacion.forEach((q, index) => {
+            const qDiv = document.createElement("div");
+            qDiv.className = "quiz-question";
+            qDiv.innerHTML = `<p><strong>${q.pregunta}</strong></p>`;
+
+            const optionsDiv = document.createElement("div");
+            optionsDiv.className = "quiz-options";
+
+            q.opciones.forEach((opt, optIndex) => {
+                optionsDiv.innerHTML += `
+                    <label>
+                        <input type="radio" name="pregunta_${index}" value="${optIndex}">
+                        ${opt}
+                    </label>
+                `;
+            });
+
+            qDiv.appendChild(optionsDiv);
+            qDiv.innerHTML += `<div id="feedback_${index}" class="feedback-inline"></div>`;
+            quizContainer.appendChild(qDiv);
         });
     }
-}
 
-function abrirTab(idTab) {
-    // Ocultar todos los contenidos de las pestañas
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    // Quitar la clase active de todos los botones de las pestañas
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    renderQuiz();
 
-    // Mostrar la pestaña seleccionada
-    document.getElementById(idTab).classList.add('active');
-    event.target.classList.add('active');
-}
+    // Calificar evaluación
+    submitQuizBtn.addEventListener("click", () => {
+        let aciertos = 0;
+        let respondidasTotales = 0;
 
-// ==========================================
-// 4. MODAL DE VALIDACIÓN PROPIO (Regla: No usar alert)
-// ==========================================
-function mostrarModal(titulo, mensaje, icono = '⚠️') {
-    document.getElementById('modal-titulo').innerText = titulo;
-    document.getElementById('modal-mensaje').innerText = mensaje;
-    document.getElementById('modal-icon').innerText = icono;
-    document.getElementById('modal-custom').style.display = 'flex';
-}
+        preguntasEvaluacion.forEach((q, index) => {
+            const seleccionada = document.querySelector(`input[name="pregunta_${index}"]:checked`);
+            const feedbackDiv = document.getElementById(`feedback_${index}`);
 
-function cerrarModal() {
-    document.getElementById('modal-custom').style.display = 'none';
-}
+            if (seleccionada) {
+                respondidasTotales++;
+                const val = parseInt(seleccionada.value);
+                if (val === q.correcta) {
+                    aciertos++;
+                    feedbackDiv.textContent = "¡Respuesta Correcta!";
+                    feedbackDiv.className = "feedback-inline correct";
+                } else {
+                    feedbackDiv.textContent = `Respuesta Incorrecta. Explicación: ${q.explicacion}`;
+                    feedbackDiv.className = "feedback-inline incorrect";
+                }
+            } else {
+                feedbackDiv.textContent = "No seleccionaste ninguna opción.";
+                feedbackDiv.className = "feedback-inline incorrect";
+            }
+        });
 
-// ==========================================
-// 5. SIMULADOR EN TIEMPO REAL
-// ==========================================
-function actualizarOpcionesUnidades() {
-    const mag = document.getElementById('magnitud-select').value;
-    const lista = unidades[mag];
-    const selectOri = document.getElementById('origen-select');
-    const selectDes = document.getElementById('destino-select');
+        if (respondidasTotales < preguntasEvaluacion.length) {
+            mostrarModal("Por favor, responda todas las preguntas antes de calificar la evaluación.");
+            return;
+        }
 
-    selectOri.innerHTML = '';
-    selectDes.innerHTML = '';
-
-    lista.forEach(u => {
-        selectOri.options.add(new Option(u.nombre, u.id));
-        selectDes.options.add(new Option(u.nombre, u.id));
+        quizScoreContainer.innerHTML = `<h3>Calificación Final: ${aciertos} de ${preguntasEvaluacion.length}</h3>`;
+        quizScoreContainer.className = "result-display";
+        quizScoreContainer.scrollIntoView({ behavior: 'smooth' });
     });
-
-    if (lista.length > 1) selectDes.selectedIndex = 1;
-    calcularConversionRealTime();
-}
-
-function calcularConversionRealTime() {
-    const inputEl = document.getElementById('valor-input');
-    const resTexto = document.getElementById('resultado-texto');
-    const val = parseFloat(inputEl.value);
-
-    if (inputEl.value === '' || isNaN(val)) {
-        resTexto.innerText = 'Esperando que escribas una cantidad...';
-        resTexto.style.color = 'var(--text-muted)';
-        return;
-    }
-
-    if (val < 0) {
-        mostrarModal('Valor Inválido', 'Las magnitudes trabajadas en este simulador requieren valores positivos. Por favor, intenta con un número mayor a cero.', '🚫');
-        inputEl.value = '';
-        return;
-    }
-
-    const mag = document.getElementById('magnitud-select').value;
-    const idOri = document.getElementById('origen-select').value;
-    const idDes = document.getElementById('destino-select').value;
-
-    const uOri = unidades[mag].find(u => u.id === idOri);
-    const uDes = unidades[mag].find(u => u.id === idDes);
-
-    // La matemática de la conversión: Convertimos a la unidad base y luego dividimos por el factor destino
-    const calculo = (val * uOri.factor) / uDes.factor;
-
-    // Animación visual suave al calcular
-    resTexto.style.opacity = '0';
-    setTimeout(() => {
-        resTexto.innerText = `${calculo.toFixed(4)} ${uDes.id}`;
-        resTexto.style.color = 'var(--accent)';
-        resTexto.style.opacity = '1';
-    }, 150);
-}
-
-// ==========================================
-// 6. EVALUACIÓN EXPLICATIVA DESDE CERO
-// ==========================================
-const preguntas = [
-    {
-        id: 1, p: "1. ¿Cuántos segundos hay en 2 minutos?", ops: ["60 s", "120 s", "180 s"], c: 1,
-        exp: "Por qué: Cada minuto tiene adentro 60 segundos. Como vamos a una unidad más pequeña, multiplicamos. Fórmula: 2 × 60 = 120."
-    },
-
-    {
-        id: 2, p: "2. Tienes 500 cm. ¿Cuántos metros son?", ops: ["5 m", "50 m", "0.5 m"], c: 0,
-        exp: "Por qué: Para armar 1 metro necesitas juntar 100 cm. Vamos de pequeño a grande, así que agrupamos dividiendo. Fórmula: 500 ÷ 100 = 5."
-    },
-
-    {
-        id: 3, p: "3. ¿A cuántos gramos equivalen 2 kg?", ops: ["200 g", "2000 g", "20 g"], c: 1,
-        exp: "Por qué: La palabra 'Kilo' significa mil. 1 Kilo tiene 1000 gramos. De grande a pequeño, multiplicamos. Fórmula: 2 × 1000 = 2000."
-    },
-
-    {
-        id: 4, p: "4. ¿Cuántos mililitros (mL) caben en 1.5 Litros?", ops: ["150 mL", "1500 mL", "15000 mL"], c: 1,
-        exp: "Por qué: En 1 litro caben exactamente 1000 mililitros. Al ir de litro a mililitro multiplicamos. Fórmula: 1.5 × 1000 = 1500."
-    },
-
-    {
-        id: 5, p: "5. ¿Cuántos segundos han pasado si esperas 1 hora?", ops: ["60 s", "600 s", "3600 s"], c: 2,
-        exp: "Por qué: Primero pasamos a minutos (1 hora = 60 min). Luego los minutos a segundos (60 min × 60 seg = 3600 segundos en total)."
-    },
-
-    {
-        id: 6, p: "6. Regla médica: ¿1 centímetro cúbico (cm³) de agua equivale a cuánto?", ops: ["1 mL", "10 mL", "100 mL"], c: 0,
-        exp: "Por qué: Esta es una regla universal para que no te confundas: el cm³ y el mililitro (mL) miden exactamente el mismo espacio físico."
-    },
-
-    {
-        id: 7, p: "7. Vas a caminar 0.5 km (medio kilómetro). ¿Cuántos metros caminarás?", ops: ["50 m", "500 m", "5000 m"], c: 1,
-        exp: "Por qué: Un kilómetro completo son 1000 metros. Así que multiplicamos por mil. Fórmula: 0.5 × 1000 = 500 metros."
-    },
-
-    {
-        id: 8, p: "8. ¿Cuántas horas tiene 1 día completo?", ops: ["12 h", "24 h", "48 h"], c: 1,
-        exp: "Por qué: Aunque a veces digamos 'medio día' o veamos el reloj en formato 12 horas, la tierra tarda 24 horas continuas en dar su giro completo."
-    },
-
-    {
-        id: 9, p: "9. Compraste 1000 gramos de carne. ¿Cuántos kilos son?", ops: ["1 kg", "10 kg", "0.1 kg"], c: 0,
-        exp: "Por qué: El gramo es pequeñito. Para armar un paquete de 1 Kilo necesitas exactamente 1000 gramos. Agrupamos dividiendo: 1000 ÷ 1000 = 1."
-    },
-
-    {
-        id: 10, p: "10. ¿Cuántos centímetros debes dibujar para trazar 1 metro?", ops: ["10 cm", "100 cm", "1000 cm"], c: 1,
-        exp: "Por qué: La palabra 'centi' viene de cien. Se necesitan cien partes pequeñitas de un metro (centímetros) para formar el metro completo."
-    }
-];
-
-function cargarEvaluacion() {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = '';
-
-    preguntas.forEach((q, idx) => {
-        let opcionesHTML = q.ops.map((op, i) => `
-      <label class="opcion-label" onclick="evaluarPregunta(${q.id}, ${i})">
-        <input type="radio" name="p_${q.id}" value="${i}"> ${op}
-      </label>
-    `).join('');
-
-        container.innerHTML += `
-      <div class="pregunta-card">
-        <p><strong>${q.p}</strong></p>
-        ${opcionesHTML}
-        <div id="retro_${q.id}" class="retro-feedback"></div>
-      </div>
-    `;
-    });
-}
-
-// Retroalimentación al instante por clic
-function evaluarPregunta(idPregunta, idRespuesta) {
-    const q = preguntas.find(p => p.id === idPregunta);
-    const retroDiv = document.getElementById(`retro_${q.id}`);
-
-    retroDiv.style.display = 'block';
-    if (idRespuesta === q.c) {
-        retroDiv.className = 'retro-feedback retro-exito';
-        retroDiv.innerHTML = `<strong>¡Excelente! 🌟</strong>`;
-    } else {
-        retroDiv.className = 'retro-feedback retro-error';
-        retroDiv.innerHTML = `<strong>Tranquilo, revisemos:</strong> ${q.exp}`;
-    }
-}
-
-function evaluarCuestionarioFinal() {
-    const respondidas = document.querySelectorAll('input[type="radio"]:checked').length;
-    if (respondidas < preguntas.length) {
-        mostrarModal('Evaluación Incompleta', `Has respondido ${respondidas} de 10 preguntas. Intenta completarlas todas para reforzar lo aprendido.`, '📝');
-    } else {
-        mostrarModal('¡Felicidades!', 'Has completado todas las actividades interactivas de este módulo de magnitudes físicas.', '🏆');
-    }
-}
-
-// ==========================================
-// 7. ANIMACIÓN MULTIMEDIA CON MATTER.JS (Entorno Físico)
-// ==========================================
-function iniciarFisicasMatterJS() {
-    const container = document.getElementById('matter-container');
-    if (!container) return;
-
-    const Engine = Matter.Engine,
-        Render = Matter.Render,
-        Runner = Matter.Runner,
-        Bodies = Matter.Bodies,
-        Composite = Matter.Composite,
-        Mouse = Matter.Mouse,
-        MouseConstraint = Matter.MouseConstraint;
-
-    const engine = Engine.create();
-    const cw = container.clientWidth;
-    const ch = container.clientHeight;
-
-    const render = Render.create({
-        element: container,
-        engine: engine,
-        options: { width: cw, height: ch, wireframes: false, background: 'transparent' }
-    });
-
-    // Creación de objetos físicos: Paredes para contener los objetos
-    const suelo = Bodies.rectangle(cw / 2, ch, cw, 40, { isStatic: true, render: { fillStyle: '#333' } });
-    const paredIzq = Bodies.rectangle(0, ch / 2, 40, ch, { isStatic: true, render: { fillStyle: '#333' } });
-    const paredDer = Bodies.rectangle(cw, ch / 2, 40, ch, { isStatic: true, render: { fillStyle: '#333' } });
-
-    // Objetos para interactuar (Representan Masa y Volumen visualmente)
-    const bloqueMasa = Bodies.rectangle(cw / 2 - 50, 50, 80, 80, { render: { fillStyle: '#39a900' } }); // Cuadrado verde
-    const bloqueVolumen = Bodies.circle(cw / 2 + 50, 10, 45, { render: { fillStyle: '#03dac6' } }); // Círculo azul
-
-    Composite.add(engine.world, [suelo, paredIzq, paredDer, bloqueMasa, bloqueVolumen]);
-
-    // Permitir interactividad con el Mouse (Arrastrar y soltar)
-    const mouse = Mouse.create(render.canvas);
-    const mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: { stiffness: 0.2, render: { visible: false } }
-    });
-
-    Composite.add(engine.world, mouseConstraint);
-    render.mouse = mouse;
-
-    // Iniciar la simulación física
-    Render.run(render);
-    Runner.run(Runner.create(), engine);
-}
+});
