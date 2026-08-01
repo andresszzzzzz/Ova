@@ -4,295 +4,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OVA: Conversión de Magnitudes Físicas</title>
+    <title>OVA Física: Conversión de Magnitudes</title>
     <link rel="stylesheet" href="Styles.css">
-    <!-- Matter.js para simulaciones físicas multimedia -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 
 <body>
-    <!-- Encabezado y Navegación Principal -->
     <header class="header">
-        <div class="logo-container">
-            <span class="badge-sena">SENA - ADSO</span>
-            <h1>OVA Física: Conversión de Magnitudes</h1>
+        <div class="container header-content">
+            <h1>OVA: Conversión de Magnitudes Físicas</h1>
+            <p>Servicio Nacional de Aprendizaje (SENA) - Análisis y Desarrollo de Software</p>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#introduccion">1. Introducción y Objetivos</a></li>
+                    <li><a href="#contenidos">2. Contenidos Multimediales</a></li>
+                    <li><a href="#conversor">3. Simulador Conversor</a></li>
+                    <li><a href="#evaluacion">4. Evaluación</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav class="nav-menu">
-            <a href="#inicio" class="nav-link active">1. Introducción</a>
-            <a href="#multimedia" class="nav-link">2. Contenidos</a>
-            <a href="#simulador" class="nav-link">3. Simulador</a>
-            <a href="#evaluacion" class="nav-link">4. Evaluación</a>
-        </nav>
     </header>
 
-    <main class="main-container">
-        <!-- SECCIÓN 1: INTRODUCCIÓN Y OBJETIVOS -->
-        <section id="inicio" class="content-section">
-            <div class="card-hero">
-                <h2>Introducción y Objetivos</h2>
-                <p class="subtitle">Importancia de las unidades de medida en el contexto productivo y social.</p>
-                <div class="info-grid">
-                    <div class="info-box">
-                        <h3>Justificación</h3>
-                        <p>La conversión de unidades es un proceso fundamental en la vida real, indispensable en áreas
-                            como la cocina, la construcción, laboratorios químicos y el comercio internacional. Un error
-                            de cálculo puede generar fallas estructurales, económicas o de seguridad.</p>
+    <main class="container main-content">
+        <!-- Paso 1: Introducción y Objetivos -->
+        <section id="introduccion" class="section">
+            <h2>1. Introducción y Objetivos</h2>
+            <div class="card">
+                <h3>¿Por qué convertir unidades en la vida real?</h3>
+                <p>La conversión de unidades es un proceso fundamental en múltiples escenarios cotidianos y
+                    profesionales como la cocina, la construcción, la investigación de laboratorio y el comercio
+                    internacional. Nos permite estandarizar medidas para asegurar la precisión, seguridad y
+                    compatibilidad de los datos e insumos.</p>
+
+                <h4 class="mt-4">Competencias a desarrollar</h4>
+                <ul class="list">
+                    <li>Identificar magnitudes físicas fundamentales y derivadas (tiempo, longitud, masa, volumen).</li>
+                    <li>Aplicar factores de conversión correctos mediante el análisis dimensional.</li>
+                    <li>Resolver problemas prácticos del contexto productivo y social utilizando cálculos precisos.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Paso 2: Contenidos Multimediales -->
+        <section id="contenidos" class="section">
+            <h2>2. Contenidos Multimediales y Equivalencias</h2>
+            <div class="card">
+                <h3>Magnitudes Físicas y Unidades Principales</h3>
+
+                <div class="grid-2">
+                    <div class="sub-card">
+                        <h4>Tiempo</h4>
+                        <p><strong>Definición:</strong> Magnitud física que mide la duración o separación de
+                            acontecimientos.</p>
+                        <p><strong>Para qué sirve:</strong> Permite ordenar los sucesos en secuencias, determinando
+                            pasados, presentes y futuros, y calcular velocidades o ritmos de trabajo.</p>
+                        <p><strong>Unidad Principal (SI):</strong> Segundo (s). Otras: Minuto (min), Hora (h).</p>
                     </div>
-                    <div class="info-box">
-                        <h3>Competencias a Desarrollar</h3>
-                        <ul>
-                            <li>Identificar magnitudes físicas escalares y vectoriales.</li>
-                            <li>Aplicar factores de conversión adecuados según el contexto productivo y social.</li>
-                            <li>Resolver problemas prácticos de cálculo en termodinámica, cinemática y mecánica.</li>
-                        </ul>
+                    <div class="sub-card">
+                        <h4>Longitud</h4>
+                        <p><strong>Definición:</strong> Distancia que hay entre dos puntos en el espacio.</p>
+                        <p><strong>Para qué sirve:</strong> Es esencial para dimensionar objetos, planificar
+                            edificaciones, trazar rutas y fabricar componentes tecnológicos.</p>
+                        <p><strong>Unidad Principal (SI):</strong> Metro (m). Otras: Centímetro (cm), Kilómetro (km),
+                            Milímetro (mm).</p>
                     </div>
+                    <div class="sub-card">
+                        <h4>Masa</h4>
+                        <p><strong>Definición:</strong> Cantidad de materia que contiene un cuerpo u objeto físico.</p>
+                        <p><strong>Para qué sirve:</strong> Permite cuantificar insumos, calcular fuerzas
+                            gravitacionales y determinar proporciones químicas o físicas.</p>
+                        <p><strong>Unidad Principal (SI):</strong> Kilogramo (kg). Otras: Gramo (g), Miligramo (mg),
+                            Tonelada (t).</p>
+                    </div>
+                    <div class="sub-card">
+                        <h4>Volumen</h4>
+                        <p><strong>Definición:</strong> Espacio tridimensional que ocupa un cuerpo.</p>
+                        <p><strong>Para qué sirve:</strong> Vital en la industria farmacéutica, culinaria, química y de
+                            fluidos para medir capacidades de recipientes.</p>
+                        <p><strong>Unidad Principal (SI):</strong> Metro cúbico (m³). Otras obligatorias: Litros (L),
+                            Mililitros (mL), Centímetros cúbicos (cm³), Onzas (oz).</p>
+                    </div>
+                </div>
+
+                <h3 class="mt-4">Tabla de Equivalencias Clave</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Magnitud</th>
+                                <th>Unidad Base</th>
+                                <th>Equivalencias Exactas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Tiempo</strong></td>
+                                <td>Segundo (s)</td>
+                                <td>1 min = 60 s | 1 h = 3600 s | 1 h = 60 min</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Longitud</strong></td>
+                                <td>Metro (m)</td>
+                                <td>1 m = 100 cm | 1 km = 1000 m | 1 m = 1000 mm</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Masa</strong></td>
+                                <td>Kilogramo (kg)</td>
+                                <td>1 kg = 1000 g | 1 g = 1000 mg | 1 t = 1000 kg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Volumen</strong></td>
+                                <td>Litro (L) / Metro Cúbico (m³)</td>
+                                <td>1 L = 1000 mL | 1 L = 1000 cm³ | 1 L ≈ 33.814 oz | 1 oz ≈ 29.5735 mL</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="mt-4">Ejemplos Resueltos Paso a Paso</h3>
+
+                <div class="ejemplo-box">
+                    <h4>Ejemplos de Tiempo</h4>
+                    <p><strong>1. Convertir 2 horas a segundos:</strong><br>
+                        - Unidad base: Segundos.<br>
+                        - Se multiplica porque pasamos de una unidad mayor a una menor (1 hora = 3600 segundos).<br>
+                        - Operación: 2 × 3600 = 7200 s.</p>
+
+                    <p><strong>2. Convertir 180 minutos a horas:</strong><br>
+                        - Unidad base: Segundos / Horas.<br>
+                        - Se divide entre 60 porque pasamos de minutos a horas.<br>
+                        - Operación: 180 / 60 = 3 h.</p>
+
+                    <p><strong>3. Convertir 500 segundos a minutos:</strong><br>
+                        - Se divide entre 60.<br>
+                        - Operación: 500 / 60 ≈ 8.33 min.</p>
+                </div>
+
+                <div class="ejemplo-box mt-2">
+                    <h4>Ejemplos de Longitud</h4>
+                    <p><strong>1. Convertir 3.5 metros a centímetros:</strong><br>
+                        - Unidad base: Metro.<br>
+                        - Se multiplica por 100 ya que cada metro tiene 100 cm.<br>
+                        - Operación: 3.5 × 100 = 350 cm.</p>
+
+                    <p><strong>2. Convertir 4500 milímetros a metros:</strong><br>
+                        - Se divide entre 1000 porque 1 metro tiene 1000 mm.<br>
+                        - Operación: 4500 / 1000 = 4.5 m.</p>
+
+                    <p><strong>3. Convertir 2.3 kilómetros a metros:</strong><br>
+                        - Se multiplica por 1000.<br>
+                        - Operación: 2.3 × 1000 = 2300 m.</p>
+                </div>
+
+                <div class="ejemplo-box mt-2">
+                    <h4>Ejemplos de Masa</h4>
+                    <p><strong>1. Convertir 2.5 kilogramos a gramos:</strong><br>
+                        - Unidad base: Kilogramo.<br>
+                        - Se multiplica por 1000 (1 kg = 1000 g).<br>
+                        - Operación: 2.5 × 1000 = 2500 g.</p>
+
+                    <p><strong>2. Convertir 4500 miligramos a gramos:</strong><br>
+                        - Se divide entre 1000.<br>
+                        - Operación: 4500 / 1000 = 4.5 g.</p>
+
+                    <p><strong>3. Convertir 350 gramos a kilogramos:</strong><br>
+                        - Se divide entre 1000.<br>
+                        - Operación: 350 / 1000 = 0.35 kg.</p>
+                </div>
+
+                <div class="ejemplo-box mt-2">
+                    <h4>Ejemplos de Volumen (mL, cm³, L, oz)</h4>
+                    <p><strong>1. Convertir 2 litros a mililitros (mL):</strong><br>
+                        - Unidad base: Litro.<br>
+                        - Se multiplica por 1000.<br>
+                        - Operación: 2 × 1000 = 2000 mL.</p>
+
+                    <p><strong>2. Convertir 500 centímetros cúbicos (cm³) a litros:</strong><br>
+                        - Nota: 1 cm³ = 1 mL. Por tanto, 500 cm³ = 500 mL.<br>
+                        - Se divide entre 1000 para llevar a litros.<br>
+                        - Operación: 500 / 1000 = 0.5 L.</p>
+
+                    <p><strong>3. Convertir 10 onzas (oz) a mililitros (mL):</strong><br>
+                        - Factor de conversión: 1 oz ≈ 29.5735 mL.<br>
+                        - Se multiplica.<br>
+                        - Operación: 10 × 29.5735 ≈ 295.74 mL.</p>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN 2: CONTENIDOS MULTIMEDIALES -->
-        <section id="multimedia" class="content-section">
-            <h2>Contenidos Multimediales y Demostración Física</h2>
-            <p class="section-desc">Exploración teórica e interactiva de las magnitudes fundamentales: Tiempo, Longitud,
-                Masa y Volumen.</p>
+        <!-- Paso 3: Actividades de Aprendizaje (Conversor Interactivo) -->
+        <section id="conversor" class="section">
+            <h2>3. Actividades de Aprendizaje: Conversor Interactivo</h2>
+            <div class="card">
+                <p>Ingrese un valor numérico, seleccione la magnitud, la unidad de origen y la unidad de destino. El
+                    cálculo y la explicación detallada se generarán automáticamente.</p>
 
-            <!-- Simulador de Física Multimedia con Matter.js -->
-            <div class="physics-banner">
-                <h3>Simulación Interactiva de Caída y Densidad (Matter.js)</h3>
-                <p>Interactúa con el contenedor para observar el comportamiento físico de cuerpos sometidos a gravedad.
-                </p>
-                <div id="physics-canvas-container"></div>
-            </div>
-
-            <div class="magnitudes-grid">
-                <!-- Tiempo -->
-                <div class="mag-card">
-                    <h3>⏱️ Tiempo</h3>
-                    <p><strong>Definición:</strong> Magnitud física que mide la duración o separación de
-                        acontecimientos.</p>
-                    <p><strong>Para qué sirve:</strong> Sincronizar procesos, calcular velocidades y programar
-                        actividades industriales.</p>
-                    <p><strong>Unidades:</strong> Segundos (s), Minutos (min), Horas (h), Días (d).</p>
-                    <div class="table-container">
-                        <table>
-                            <tr>
-                                <th>Unidad</th>
-                                <th>Equivalencia Base (s)</th>
-                            </tr>
-                            <tr>
-                                <td>1 minuto</td>
-                                <td>60 s</td>
-                            </tr>
-                            <tr>
-                                <td>1 hora</td>
-                                <td>3600 s</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <details>
-                        <summary>Ver 3 Ejemplos Resueltos Paso a Paso</summary>
-                        <div class="step-content">
-                            <p><strong>Ejemplo 1:</strong> Convertir 120 minutos a horas.<br><em>Paso 1:</em>
-                                Identificar factor (1 h = 60 min).<br><em>Paso 2:</em> Dividir 120 / 60 = <strong>2
-                                    horas</strong>.</p>
-                            <p><strong>Ejemplo 2:</strong> Convertir 3 horas a segundos.<br><em>Paso 1:</em> 3 h × 60
-                                min/h = 180 min.<br><em>Paso 2:</em> 180 min × 60 s/min = <strong>10,800
-                                    segundos</strong>.</p>
-                            <p><strong>Ejemplo 3:</strong> Convertir 5400 segundos a horas.<br><em>Paso 1:</em> 5400 /
-                                60 = 90 min.<br><em>Paso 2:</em> 90 / 60 = <strong>1.5 horas</strong>.</p>
-                        </div>
-                    </details>
-                </div>
-
-                <!-- Longitud -->
-                <div class="mag-card">
-                    <h3>📏 Longitud</h3>
-                    <p><strong>Definición:</strong> Distancia geométrica unidimensional entre dos puntos.</p>
-                    <p><strong>Para qué sirve:</strong> Planos arquitectónicos, diseño de piezas mecánicas y trazado de
-                        rutas.</p>
-                    <p><strong>Unidades:</strong> Metros (m), Kilómetros (km), Centímetros (cm), Milímetros (mm).</p>
-                    <div class="table-container">
-                        <table>
-                            <tr>
-                                <th>Unidad</th>
-                                <th>Equivalencia Base (m)</th>
-                            </tr>
-                            <tr>
-                                <td>1 kilómetro</td>
-                                <td>1000 m</td>
-                            </tr>
-                            <tr>
-                                <td>1 centímetro</td>
-                                <td>0.01 m</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <details>
-                        <summary>Ver 3 Ejemplos Resueltos Paso a Paso</summary>
-                        <div class="step-content">
-                            <p><strong>Ejemplo 1:</strong> Convertir 2.5 km a metros.<br><em>Paso 1:</em> Factor (1 km =
-                                1000 m).<br><em>Paso 2:</em> 2.5 × 1000 = <strong>2500 metros</strong>.</p>
-                            <p><strong>Ejemplo 2:</strong> Convertir 450 cm a metros.<br><em>Paso 1:</em> Factor (1 m =
-                                100 cm).<br><em>Paso 2:</em> 450 / 100 = <strong>4.5 metros</strong>.</p>
-                            <p><strong>Ejemplo 3:</strong> Convertir 1500 mm a metros.<br><em>Paso 1:</em> 1 m = 1000
-                                mm.<br><em>Paso 2:</em> 1500 / 1000 = <strong>1.5 metros</strong>.</p>
-                        </div>
-                    </details>
-                </div>
-
-                <!-- Masa -->
-                <div class="mag-card">
-                    <h3>⚖️ Masa</h3>
-                    <p><strong>Definición:</strong> Cantidad de materia que contiene un cuerpo físico.</p>
-                    <p><strong>Para qué sirve:</strong> Dosificación de compuestos químicos, control de envíos y física
-                        de materiales.</p>
-                    <p><strong>Unidades:</strong> Kilogramos (kg), Gramos (g), Miligramos (mg), Libras (lb).</p>
-                    <div class="table-container">
-                        <table>
-                            <tr>
-                                <th>Unidad</th>
-                                <th>Equivalencia Base (kg)</th>
-                            </tr>
-                            <tr>
-                                <td>1 kilogramo</td>
-                                <td>1000 g</td>
-                            </tr>
-                            <tr>
-                                <td>1 libra</td>
-                                <td>0.453592 kg</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <details>
-                        <summary>Ver 3 Ejemplos Resueltos Paso a Paso</summary>
-                        <div class="step-content">
-                            <p><strong>Ejemplo 1:</strong> Convertir 3.5 kg a gramos.<br><em>Paso 1:</em> 1 kg = 1000
-                                g.<br><em>Paso 2:</em> 3.5 × 1000 = <strong>3500 gramos</strong>.</p>
-                            <p><strong>Ejemplo 2:</strong> Convertir 5000 mg a gramos.<br><em>Paso 1:</em> 1 g = 1000
-                                mg.<br><em>Paso 2:</em> 5000 / 1000 = <strong>5 gramos</strong>.</p>
-                            <p><strong>Ejemplo 3:</strong> Convertir 2 lb a kilogramos.<br><em>Paso 1:</em> 1 lb
-                                $\approx$ 0.4536 kg.<br><em>Paso 2:</em> 2 × 0.4536 = <strong>0.9072 kg</strong>.</p>
-                        </div>
-                    </details>
-                </div>
-
-                <!-- Volumen -->
-                <div class="mag-card">
-                    <h3>🧪 Volumen (Requerido)</h3>
-                    <p><strong>Definición:</strong> Espacio tridimensional ocupado por un cuerpo.</p>
-                    <p><strong>Para qué sirve:</strong> Mezclas de líquidos en química, industria alimentaria y
-                        capacidad de fluidos.</p>
-                    <p><strong>Unidades:</strong> Mililitros (ml), Centímetros cúbicos ($cm^3$), Litros (L), Onzas (oz).
-                    </p>
-                    <div class="table-container">
-                        <table>
-                            <tr>
-                                <th>Unidad</th>
-                                <th>Equivalencia Base (Litros)</th>
-                            </tr>
-                            <tr>
-                                <td>1 Mililitro (ml)</td>
-                                <td>0.001 L ($1 \, ml = 1 \, cm^3$)</td>
-                            </tr>
-                            <tr>
-                                <td>1 Litro (L)</td>
-                                <td>1 L</td>
-                            </tr>
-                            <tr>
-                                <td>1 Onza líquida (oz)</td>
-                                <td>0.0295735 L</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <details>
-                        <summary>Ver 3 Ejemplos Resueltos Paso a Paso</summary>
-                        <div class="step-content">
-                            <p><strong>Ejemplo 1:</strong> Convertir 2 Litros a Mililitros y $cm^3$.<br><em>Paso 1:</em>
-                                1 L = 1000 ml.<br><em>Paso 2:</em> 2 × 1000 = <strong>2000 ml</strong> (y por
-                                equivalencia exacta, <strong>2000 $cm^3$</strong>).</p>
-                            <p><strong>Ejemplo 2:</strong> Convertir 500 ml a Litros.<br><em>Paso 1:</em> Factor 1 L =
-                                1000 ml.<br><em>Paso 2:</em> 500 / 1000 = <strong>0.5 Litros</strong>.</p>
-                            <p><strong>Ejemplo 3:</strong> Convertir 8 onzas (oz) a mililitros.<br><em>Paso 1:</em> 1 oz
-                                $\approx$ 29.5735 ml.<br><em>Paso 2:</em> 8 × 29.5735 = <strong>236.59 ml</strong>.</p>
-                        </div>
-                    </details>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN 3: CONVERSOR INTERACTIVO -->
-        <section id="simulador" class="content-section">
-            <h2>Simulador Interactivo de Conversión</h2>
-            <p class="section-desc">Ingrese una cantidad numérica, seleccione la magnitud, la unidad de origen y de
-                destino para calcular en tiempo real.</p>
-
-            <div class="converter-box">
-                <div class="form-group">
-                    <label for="inputValue">Valor numérico:</label>
-                    <input type="number" id="inputValue" placeholder="Ej. 15" step="any">
-                </div>
-
-                <div class="form-group">
-                    <label for="magnitudeSelect">Magnitud:</label>
-                    <select id="magnitudeSelect">
-                        <option value="tiempo">Tiempo</option>
-                        <option value="longitud">Longitud</option>
-                        <option value="masa">Masa</option>
-                        <option value="volumen">Volumen (ml, cm³, L, oz)</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
+                <div class="form-grid">
                     <div class="form-group">
-                        <label for="unitFrom">Unidad de Origen:</label>
-                        <select id="unitFrom"></select>
+                        <label for="magnitud-select">Seleccione Magnitud:</label>
+                        <select id="magnitud-select" class="form-control">
+                            <option value="tiempo">Tiempo</option>
+                            <option value="longitud">Longitud</option>
+                            <option value="masa">Masa</option>
+                            <option value="volumen">Volumen</option>
+                        </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="unitTo">Unidad de Destino:</label>
-                        <select id="unitTo"></select>
+                        <label for="valor-input">Valor a convertir:</label>
+                        <input type="number" id="valor-input" class="form-control" placeholder="Ej: 10" step="any">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="origen-select">Unidad de Origen:</label>
+                        <select id="origen-select" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destino-select">Unidad de Destino:</label>
+                        <select id="destino-select" class="form-control"></select>
                     </div>
                 </div>
 
-                <button id="convertBtn" class="btn-primary">Calcular Conversión</button>
+                <button id="btn-convertir" class="btn mt-3">Convertir</button>
 
-                <div id="converterResult" class="result-display hidden">
-                    <h3>Resultado de la Conversión:</h3>
-                    <p id="resultValueText" class="highlight-result"></p>
-                    <div class="explanation-box">
-                        <h4>Explicación Paso a Paso:</h4>
-                        <p id="resultStepText"></p>
-                        <h4>Explicación Sencilla para Principiantes:</h4>
-                        <p id="resultBeginnerText"></p>
-                    </div>
+                <div id="resultado-container" class="resultado-box mt-4" style="display: none;">
+                    <h3>Resultado de la Conversión</h3>
+                    <p id="texto-resultado" class="fs-large font-weight-bold"></p>
+
+                    <h4 class="mt-3">Explicación detallada del procedimiento:</h4>
+                    <div id="explicacion-detalle" class="explicacion-content"></div>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN 4: EVALUACIÓN (10 PREGUNTAS) -->
-        <section id="evaluacion" class="content-section">
-            <h2>Evaluación de Competencias (10 Preguntas)</h2>
-            <p class="section-desc">Verifique su nivel de comprensión resolviendo el siguiente cuestionario con
-                retroalimentación inmediata.</p>
-
-            <div id="quizContainer">
-                <!-- Generado dinámicamente o estructurado por JS/HTML -->
+        <!-- Paso 4: Evaluación -->
+        <section id="evaluacion" class="section">
+            <h2>4. Evaluación de Logros</h2>
+            <div class="card">
+                <p>Responda las 10 preguntas de conversión. Obtendrá retroalimentación inmediata detallando el
+                    procedimiento en caso de error o acierto.</p>
+                <div id="quiz-container"></div>
+                <button id="btn-evaluar" class="btn mt-3">Calificar Evaluación</button>
+                <div id="calificacion-resultado" class="mt-3" style="display: none;"></div>
             </div>
-            <button id="submitQuizBtn" class="btn-primary">Calificar Evaluación</button>
-            <div id="quizScoreContainer" class="hidden"></div>
         </section>
     </main>
 
-    <!-- Modal Personalizado Requerido (Sin usar alert()) -->
-    <div id="customModal" class="modal-overlay hidden">
+    <!-- Modal Personalizado (Sin usar alert nativo) -->
+    <div id="custom-modal" class="modal" style="display: none;">
         <div class="modal-content">
-            <h3 id="modalTitle">Atención</h3>
-            <p id="modalMessage">Mensaje informativo del sistema.</p>
-            <button id="modalCloseBtn" class="btn-primary">Aceptar</button>
+            <h3>Aviso del Sistema</h3>
+            <p id="modal-mensaje"></p>
+            <button id="modal-cerrar" class="btn mt-3">Aceptar</button>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>SENA - Análisis y Desarrollo de Software (ADSO) | Objeto Virtual de Aprendizaje (OVA)</p>
+    <footer class="footer mt-4">
+        <div class="container text-center">
+            <p>OVA Desarrollado para el SENA - Análisis y Desarrollo de Software © 2026</p>
+        </div>
     </footer>
 
     <script src="js.js"></script>
