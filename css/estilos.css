@@ -1,0 +1,628 @@
+/* ============================================================
+   estilos.css
+   Variables CSS (:root) y estilos generales del OVA.
+   Diseño limpio, funcional y responsive básico con media queries.
+   ============================================================ */
+
+:root {
+  --color-primario: #1B5E7A;
+  --color-primario-oscuro: #123F52;
+  --color-secundario: #2E8B8B;
+  --color-acento: #E8A33D;
+  --color-fondo: #F7F9FA;
+  --color-superficie: #FFFFFF;
+  --color-texto: #1A1D23;
+  --color-texto-suave: #52606D;
+  --color-borde: #D7DEE3;
+  --color-exito: #2E7D32;
+  --color-exito-fondo: #E7F4E8;
+  --color-error: #C62828;
+  --color-error-fondo: #FCEAEA;
+
+  --fuente-base: -apple-system, "Segoe UI", system-ui, Roboto, Arial, sans-serif;
+  --fuente-datos: ui-monospace, "Cascadia Code", "Consolas", "SFMono-Regular", monospace;
+
+  --radio-borde: 6px;
+  --sombra-suave: 0 1px 3px rgba(18, 63, 82, 0.12);
+  --ancho-maximo: 980px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-base);
+  color: var(--color-texto);
+  background-color: var(--color-fondo);
+  line-height: 1.55;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--color-primario);
+}
+
+/* ---------- Encabezado y navegación ---------- */
+
+.encabezado-sitio {
+  background-color: var(--color-primario-oscuro);
+  color: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: var(--sombra-suave);
+}
+
+.barra-navegacion {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.marca-sitio {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.lista-navegacion {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.lista-navegacion a {
+  color: #DCEAF0;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.lista-navegacion a:hover,
+.lista-navegacion a:focus-visible {
+  color: #FFFFFF;
+  border-color: var(--color-acento);
+}
+
+/* ---------- Contenedor general de secciones ---------- */
+
+.seccion {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.seccion + .seccion {
+  border-top: 1px solid var(--color-borde);
+}
+
+.etiqueta-paso {
+  display: inline-block;
+  font-family: var(--fuente-datos);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-secundario);
+  background-color: rgba(46, 139, 139, 0.1);
+  border: 1px solid rgba(46, 139, 139, 0.3);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.seccion h2 {
+  font-size: 1.7rem;
+  margin: 0 0 0.4rem 0;
+  color: var(--color-primario-oscuro);
+}
+
+.subtitulo-seccion {
+  color: var(--color-texto-suave);
+  margin: 0 0 1.6rem 0;
+  font-size: 1rem;
+}
+
+/* ---------- Sección Hero / Introducción (Paso 1) ---------- */
+
+.hero-introduccion {
+  background: linear-gradient(180deg, var(--color-primario-oscuro) 0%, var(--color-primario) 100%);
+  color: #FFFFFF;
+  padding: 3.5rem 1.25rem;
+}
+
+.hero-contenido {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+}
+
+.hero-contenido .etiqueta-paso {
+  color: #DCEAF0;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.hero-contenido h1 {
+  font-size: 2.1rem;
+  margin: 0 0 1rem 0;
+  max-width: 32ch;
+}
+
+.hero-contenido p {
+  max-width: 62ch;
+  color: #E4EEF2;
+  font-size: 1.02rem;
+}
+
+.lista-competencias {
+  margin-top: 1.6rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.tarjeta-competencia {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radio-borde);
+  padding: 1rem;
+}
+
+.tarjeta-competencia h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem 0;
+  color: var(--color-acento);
+}
+
+.tarjeta-competencia p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #D9E6EA;
+}
+
+/* ---------- Pestañas de magnitudes (Paso 2) ---------- */
+
+.pestanas-magnitud {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.boton-pestana {
+  font-family: var(--fuente-base);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-texto-suave);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+}
+
+.boton-pestana:hover {
+  color: var(--color-primario);
+}
+
+.boton-pestana[aria-selected="true"] {
+  color: var(--color-primario-oscuro);
+  border-bottom-color: var(--color-acento);
+}
+
+.panel-magnitud {
+  display: none;
+}
+
+.panel-magnitud.panel-activo {
+  display: block;
+}
+
+.tabla-equivalencias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.75rem;
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+}
+
+.tabla-equivalencias caption {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.75rem 1rem 0.5rem;
+  color: var(--color-primario-oscuro);
+}
+
+.tabla-equivalencias th,
+.tabla-equivalencias td {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--color-borde);
+  font-size: 0.92rem;
+}
+
+.tabla-equivalencias th {
+  background-color: #EFF4F6;
+  font-weight: 700;
+  color: var(--color-primario-oscuro);
+}
+
+.tabla-equivalencias td:last-child,
+.tabla-equivalencias th:last-child {
+  font-family: var(--fuente-datos);
+}
+
+.titulo-ejemplos {
+  font-size: 1.05rem;
+  color: var(--color-primario-oscuro);
+  margin: 1.6rem 0 0.9rem 0;
+}
+
+.tarjeta-ejemplo {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 1rem;
+  align-items: center;
+}
+
+.tarjeta-ejemplo h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.98rem;
+  color: var(--color-primario-oscuro);
+}
+
+.tarjeta-ejemplo ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+}
+
+.tarjeta-ejemplo ol li {
+  margin-bottom: 0.25rem;
+}
+
+.tarjeta-ejemplo ol li strong {
+  color: var(--color-texto);
+  font-family: var(--fuente-datos);
+}
+
+.lienzo-ejemplo {
+  width: 100%;
+  height: 130px;
+  background-color: #FBFCFD;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+}
+
+/* ---------- Conversor interactivo (Paso 3) ---------- */
+
+.panel-conversor {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.controles-conversor {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.grupo-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.grupo-campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-texto-suave);
+}
+
+.grupo-campo select,
+.grupo-campo input[type="text"] {
+  font-family: var(--fuente-datos);
+  font-size: 0.95rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  background-color: #FFFFFF;
+  color: var(--color-texto);
+}
+
+.grupo-campo select:focus-visible,
+.grupo-campo input:focus-visible {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 1px;
+}
+
+.fila-doble-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.input-invalido {
+  border-color: var(--color-error) !important;
+  background-color: var(--color-error-fondo);
+}
+
+.mensaje-error-conversor,
+.mensaje-error-pregunta {
+  font-size: 0.82rem;
+  color: var(--color-error);
+  min-height: 1.1em;
+  margin: 0;
+}
+
+.caja-resultado {
+  background-color: #EFF7F5;
+  border: 1px solid rgba(46, 139, 139, 0.35);
+  border-radius: var(--radio-borde);
+  padding: 0.9rem 1rem;
+  margin-top: 0.4rem;
+}
+
+.caja-resultado span:first-child {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+  margin-bottom: 0.25rem;
+}
+
+#resultado-conversion {
+  font-family: var(--fuente-datos);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primario-oscuro);
+}
+
+.visualizacion-conversor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.visualizacion-conversor p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+#lienzo-conversor {
+  width: 100%;
+  height: 220px;
+  background-color: #FBFCFD;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+}
+
+/* ---------- Evaluación (Paso 4) ---------- */
+
+.tarjeta-pregunta {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.numero-pregunta {
+  font-family: var(--fuente-datos);
+  font-size: 0.78rem;
+  color: var(--color-secundario);
+  margin: 0 0 0.4rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.enunciado-pregunta {
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+  color: var(--color-texto);
+}
+
+.lista-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.opcion-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.94rem;
+  cursor: pointer;
+}
+
+.contenedor-input-completar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-completar {
+  font-family: var(--fuente-datos);
+  font-size: 0.95rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  width: 180px;
+}
+
+.etiqueta-unidad-pregunta {
+  font-family: var(--fuente-datos);
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.boton-primario {
+  font-family: var(--fuente-base);
+  font-weight: 700;
+  font-size: 0.95rem;
+  background-color: var(--color-primario);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radio-borde);
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.boton-primario:hover {
+  background-color: var(--color-primario-oscuro);
+}
+
+.boton-primario:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+.contenedor-boton-calificar {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ---------- Modal propio de retroalimentación ---------- */
+
+.fondo-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(18, 63, 82, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  z-index: 50;
+}
+
+.fondo-modal.modal-visible {
+  display: flex;
+}
+
+.caja-modal {
+  background-color: var(--color-superficie);
+  border-radius: var(--radio-borde);
+  max-width: 520px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.6rem;
+  box-shadow: 0 10px 30px rgba(18, 63, 82, 0.35);
+}
+
+.caja-modal h3 {
+  margin: 0 0 0.6rem 0;
+  color: var(--color-primario-oscuro);
+}
+
+.caja-modal p {
+  margin: 0 0 0.9rem 0;
+  color: var(--color-texto);
+}
+
+.modal-subtitulo-errores {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-texto-suave);
+}
+
+#modal-lista-errores {
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+}
+
+#modal-lista-errores li {
+  margin-bottom: 0.6rem;
+}
+
+.contenedor-boton-modal {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* ---------- Pie de página ---------- */
+
+.pie-sitio {
+  text-align: center;
+  padding: 1.5rem 1.25rem;
+  font-size: 0.82rem;
+  color: var(--color-texto-suave);
+}
+
+/* ---------- Responsive: pantallas medianas y pequeñas ---------- */
+
+@media (max-width: 768px) {
+  .lista-competencias {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-conversor {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta-ejemplo {
+    grid-template-columns: 1fr;
+  }
+
+  .fila-doble-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-contenido h1 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .seccion {
+    padding: 2.2rem 1rem;
+  }
+
+  .barra-navegacion {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lista-navegacion {
+    gap: 0.85rem;
+  }
+}
