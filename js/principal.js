@@ -1,178 +1,59 @@
-/**
- * principal.js
- * Inicializa la página: llena los selectores de unidades del conversor
- * interactivo, escucha los cambios de los inputs para recalcular en
- * tiempo real (sin recargar la página) y conecta el módulo de evaluación.
- */
-
-const ETIQUETAS_MAGNITUD = {
-  tiempo: "Tiempo",
-  longitud: "Longitud",
-  masa: "Masa",
-  volumen: "Volumen"
-};
+const ETIQUETAS_MAGNITUD = { tiempo: "Tiempo", longitud: "Longitud", masa: "Masa", volumen: "Volumen" };
 
 document.addEventListener("DOMContentLoaded", () => {
   inicializarPestanasMagnitud();
   inicializarConversorInteractivo();
-  construirEvaluacion("contenedor-preguntas");
-  inicializarBotonesModal();
   inicializarEjemplosResueltos();
+  inicializarReto();
 });
 
-/**
- * Controla las pestañas de la sección "Contenidos Multimediales" (Paso 2)
- * que permiten alternar entre tiempo, longitud, masa y volumen.
- */
 function inicializarPestanasMagnitud() {
-  const botones = document.querySelectorAll(".boton-pestana");
-  if (botones.length === 0) return;
-
-  botones.forEach((boton) => {
-    boton.addEventListener("click", () => {
-      const magnitudObjetivo = boton.getAttribute("data-magnitud");
-
-      botones.forEach((b) => b.setAttribute("aria-selected", "false"));
-      boton.setAttribute("aria-selected", "true");
-
-      document.querySelectorAll(".panel-magnitud").forEach((panel) => {
-        panel.classList.remove("panel-activo");
-      });
-      const panelObjetivo = document.getElementById("panel-" + magnitudObjetivo);
-      if (panelObjetivo) {
-        panelObjetivo.classList.add("panel-activo");
-        // Redibuja las animaciones de los ejemplos del panel recién mostrado
-        panelObjetivo.querySelectorAll("[data-ejemplo-canvas]").forEach((lienzo) => {
-          const valorOrigen = parseFloat(lienzo.getAttribute("data-valor-origen"));
-          const valorDestino = parseFloat(lienzo.getAttribute("data-valor-destino"));
-          const etiquetaOrigen = lienzo.getAttribute("data-etiqueta-origen");
-          const etiquetaDestino = lienzo.getAttribute("data-etiqueta-destino");
-          animarBarras(lienzo.id, valorOrigen, valorDestino, etiquetaOrigen, etiquetaDestino);
-        });
+  document.querySelectorAll(".boton-pestana").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const mag = btn.dataset.magnitud;
+      document.querySelectorAll(".boton-pestana").forEach(b => b.setAttribute("aria-selected", "false"));
+      btn.setAttribute("aria-selected", "true");
+      document.querySelectorAll(".panel-magnitud").forEach(p => p.classList.remove("panel-activo"));
+      const panel = document.getElementById("panel-" + mag);
+      if (panel) {
+        panel.classList.add("panel-activo");
+        panel.querySelectorAll("[data-ejemplo-canvas]").forEach(c => animarBarras(c.id,
+          parseFloat(c.dataset.valorOrigen), parseFloat(c.dataset.valorDestino), c.dataset.etiquetaOrigen, c.dataset.etiquetaDestino));
       }
     });
   });
 }
-
-/**
- * Llena el selector de unidades según la magnitud elegida.
- */
-function llenarSelectorUnidades(selectorElemento, magnitud) {
-  const unidades = obtenerUnidades(magnitud);
-  selectorElemento.innerHTML = "";
-  unidades.forEach((unidad) => {
-    const opcion = document.createElement("option");
-    opcion.value = unidad.clave;
-    opcion.textContent = unidad.etiqueta;
-    selectorElemento.appendChild(opcion);
-  });
+function llenarSelectorUnidades(el, magnitud) {
+  if (!el) return;
+  el.innerHTML = "";
+  obtenerUnidades(magnitud).forEach(u => { const o = document.createElement("option"); o.value = u.clave; o.textContent = u.etiqueta; el.appendChild(o) });
 }
-
 function inicializarConversorInteractivo() {
-  const selectorMagnitud = document.getElementById("selector-magnitud");
-  const selectorOrigen = document.getElementById("selector-unidad-origen");
-  const selectorDestino = document.getElementById("selector-unidad-destino");
-  const inputValor = document.getElementById("input-valor-origen");
-  const mensajeError = document.getElementById("mensaje-error-conversor");
-  const resultadoTexto = document.getElementById("resultado-conversion");
-
-  if (!selectorMagnitud) return; // el conversor no está en esta vista
-
-  function actualizarSelectoresUnidad() {
-    const magnitud = selectorMagnitud.value;
-    llenarSelectorUnidades(selectorOrigen, magnitud);
-    llenarSelectorUnidades(selectorDestino, magnitud);
-    // Selecciona automáticamente una segunda unidad distinta como destino, si existe
-    if (selectorDestino.options.length > 1) {
-      selectorDestino.selectedIndex = 1;
-    }
-    recalcular();
+  const mag = document.getElementById("selector-magnitud"); if (!mag) return;
+  const ori = document.getElementById("selector-unidad-origen"), des = document.getElementById("selector-unidad-destino");
+  const input = document.getElementById("input-valor-origen"), msg = document.getElementById("mensaje-error-conversor"), result = document.getElementById("resultado-conversion");
+  function actualizar() {
+    llenarSelectorUnidades(ori, mag.value); llenarSelectorUnidades(des, mag.value);
+    if (des.options.length > 1) des.selectedIndex = 1; recalcular();
   }
-
   function recalcular() {
-    const magnitud = selectorMagnitud.value;
-    const textoValor = inputValor.value.trim();
-
-    if (textoValor === "") {
-      resultadoTexto.textContent = "—";
-      mensajeError.textContent = "";
-      inputValor.classList.remove("input-invalido");
-      dibujarEstadoInicial("lienzo-conversor");
-      return;
-    }
-
-    const expresionNumerica = /^-?\d+(\.\d+)?$/;
-    if (!expresionNumerica.test(textoValor)) {
-      resultadoTexto.textContent = "—";
-      mensajeError.textContent = "Ingresa solo números (no se permiten letras ni símbolos).";
-      inputValor.classList.add("input-invalido");
-      return;
-    }
-
-    mensajeError.textContent = "";
-    inputValor.classList.remove("input-invalido");
-
-    const valor = parseFloat(textoValor);
-    const unidadOrigen = selectorOrigen.value;
-    const unidadDestino = selectorDestino.value;
-
-    const resultado = convertir(magnitud, valor, unidadOrigen, unidadDestino);
-    resultadoTexto.textContent = formatearNumero(resultado) + " " + unidadDestino;
-
-    animarBarras(
-      "lienzo-conversor",
-      valor,
-      resultado,
-      unidadOrigen,
-      unidadDestino
-    );
+    const txt = input.value.trim();
+    if (!txt) { result.textContent = "—"; msg.textContent = ""; dibujarEstadoInicial("lienzo-conversor"); return }
+    if (!/^-?\d+([.,]\d+)?$/.test(txt)) { result.textContent = "—"; msg.textContent = "Usa un número, por ejemplo 12.5"; return }
+    const valor = parseFloat(txt.replace(",", ".")), u1 = ori.value, u2 = des.value;
+    const convertido = convertir(mag.value, valor, u1, u2);
+    result.textContent = formatearNumero(convertido) + " " + u2; msg.textContent = "";
+    const base = valor * FACTORES[mag.value].unidades[u1].factor;
+    animarBarras("lienzo-conversor", valor, convertido, u1 + " · " + formatearNumero(valor), u2 + " · " + formatearNumero(convertido), base);
   }
-
-  selectorMagnitud.addEventListener("change", actualizarSelectoresUnidad);
-  selectorOrigen.addEventListener("change", recalcular);
-  selectorDestino.addEventListener("change", recalcular);
-  inputValor.addEventListener("input", recalcular);
-
-  // Estado inicial
-  actualizarSelectoresUnidad();
-  dibujarEstadoInicial("lienzo-conversor");
+  mag.addEventListener("change", actualizar); ori.addEventListener("change", recalcular); des.addEventListener("change", recalcular); input.addEventListener("input", recalcular);
+  document.querySelectorAll(".quick button").forEach(b => b.addEventListener("click", () => { input.value = b.dataset.valor; recalcular() }));
+  actualizar();
 }
-
-/**
- * Conecta el botón de calificar y el botón de cerrar del modal.
- */
-function inicializarBotonesModal() {
-  const botonCalificar = document.getElementById("boton-calificar");
-  const botonCerrarModal = document.getElementById("modal-cerrar");
-  const fondoModal = document.getElementById("modal-retroalimentacion");
-
-  if (botonCalificar) {
-    botonCalificar.addEventListener("click", calificarEvaluacion);
-  }
-  if (botonCerrarModal) {
-    botonCerrarModal.addEventListener("click", cerrarModal);
-  }
-  if (fondoModal) {
-    fondoModal.addEventListener("click", (evento) => {
-      if (evento.target === fondoModal) cerrarModal();
-    });
-    document.addEventListener("keydown", (evento) => {
-      if (evento.key === "Escape") cerrarModal();
-    });
-  }
-}
-
-/**
- * Dibuja las mini-animaciones estáticas de comparación junto a cada
- * ejemplo resuelto de la sección de Contenidos Multimediales (Paso 2).
- */
 function inicializarEjemplosResueltos() {
-  const lienzosEjemplo = document.querySelectorAll("[data-ejemplo-canvas]");
-  lienzosEjemplo.forEach((lienzo) => {
-    const valorOrigen = parseFloat(lienzo.getAttribute("data-valor-origen"));
-    const valorDestino = parseFloat(lienzo.getAttribute("data-valor-destino"));
-    const etiquetaOrigen = lienzo.getAttribute("data-etiqueta-origen");
-    const etiquetaDestino = lienzo.getAttribute("data-etiqueta-destino");
-    animarBarras(lienzo.id, valorOrigen, valorDestino, etiquetaOrigen, etiquetaDestino);
-  });
+  document.querySelectorAll("[data-ejemplo-canvas]").forEach(c => animarBarras(c.id, parseFloat(c.dataset.valorOrigen), parseFloat(c.dataset.valorDestino), c.dataset.etiquetaOrigen, c.dataset.etiquetaDestino));
+}
+function inicializarReto() {
+  const b = document.getElementById("btn-reto"), r = document.getElementById("respuesta-reto"); if (!b) return;
+  b.addEventListener("click", () => r.textContent = " ✓ 2,5 kg = 2500 g");
 }

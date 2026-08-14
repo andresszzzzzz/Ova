@@ -1,119 +1,63 @@
-/**
- * animacion.js
- * Usa Canvas 2D para animar y recrear de forma visual el resultado
- * de una conversión: dos barras (valor de origen y valor convertido)
- * que crecen desde la base del lienzo hasta la altura proporcional
- * a su magnitud relativa.
- */
-
 const ANIMACIONES_ACTIVAS = {};
 
-/**
- * Anima dos barras comparativas dentro de un <canvas>.
- * @param {string} idCanvas - id del elemento canvas
- * @param {number} valorOrigen - valor original ingresado
- * @param {number} valorDestino - valor ya convertido
- * @param {string} etiquetaOrigen - texto corto de la unidad de origen
- * @param {string} etiquetaDestino - texto corto de la unidad de destino
- */
-function animarBarras(idCanvas, valorOrigen, valorDestino, etiquetaOrigen, etiquetaDestino) {
+function animarBarras(idCanvas, valorOrigen, valorDestino, etiquetaOrigen, etiquetaDestino, valorBase = null) {
   const canvas = document.getElementById(idCanvas);
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
+  if (ANIMACIONES_ACTIVAS[idCanvas]) cancelAnimationFrame(ANIMACIONES_ACTIVAS[idCanvas]);
 
-  // Cancela cualquier animación previa sobre este mismo canvas
-  if (ANIMACIONES_ACTIVAS[idCanvas]) {
-    cancelAnimationFrame(ANIMACIONES_ACTIVAS[idCanvas]);
+  const dpr = window.devicePixelRatio || 1;
+  const cssWidth = canvas.clientWidth || canvas.width;
+  const cssHeight = canvas.clientHeight || canvas.height;
+  if (canvas.width !== Math.round(cssWidth * dpr) || canvas.height !== Math.round(cssHeight * dpr)) {
+    canvas.width = Math.round(cssWidth * dpr); canvas.height = Math.round(cssHeight * dpr);
   }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const w = cssWidth, h = cssHeight, baseY = h - 45, maxH = h - 105;
+  const text = getComputedStyle(document.documentElement).getPropertyValue("--color-texto").trim() || "#18202a";
+  const primary = "#5266e8", accent = "#8b5cf6";
+  let start = null;
 
-  const ancho = canvas.width;
-  const alto = canvas.height;
-  const margenInferior = 34;
-  const alturaMaxima = alto - margenInferior - 16;
+  function draw(progress) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#f7f8fc"; ctx.fillRect(0, 0, w, h);
+    const barW = Math.min(100, w * .22), x1 = w * .28 - barW / 2, x2 = w * .72 - barW / 2;
+    const barH = maxH * .72 * progress;
+    ctx.strokeStyle = "#d8deea"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(25, baseY); ctx.lineTo(w - 25, baseY); ctx.stroke();
 
-  const valorAbsOrigen = Math.abs(valorOrigen);
-  const valorAbsDestino = Math.abs(valorDestino);
-  const maximoValor = Math.max(valorAbsOrigen, valorAbsDestino, 0.0001);
+    ctx.fillStyle = primary; ctx.roundRect(x1, baseY - barH, barW, barH, 10); ctx.fill();
+    ctx.fillStyle = accent; ctx.roundRect(x2, baseY - barH, barW, barH, 10); ctx.fill();
 
-  const alturaFinalOrigen = (valorAbsOrigen / maximoValor) * alturaMaxima;
-  const alturaFinalDestino = (valorAbsDestino / maximoValor) * alturaMaxima;
-
-  const estiloComputado = getComputedStyle(document.documentElement);
-  const colorPrimario = estiloComputado.getPropertyValue("--color-primario").trim() || "#1B5E7A";
-  const colorAcento = estiloComputado.getPropertyValue("--color-acento").trim() || "#E8A33D";
-  const colorTexto = estiloComputado.getPropertyValue("--color-texto").trim() || "#1A1D23";
-
-  const duracionMs = 600;
-  let inicio = null;
-
-  function dibujarCuadro(alturaOrigenActual, alturaDestinoActual) {
-    ctx.clearRect(0, 0, ancho, alto);
-
-    const anchoBarra = ancho * 0.22;
-    const xOrigen = ancho * 0.22 - anchoBarra / 2;
-    const xDestino = ancho * 0.72 - anchoBarra / 2;
-    const yBase = alto - margenInferior;
-
-    // Línea base
-    ctx.strokeStyle = colorTexto;
-    ctx.globalAlpha = 0.25;
-    ctx.beginPath();
-    ctx.moveTo(16, yBase);
-    ctx.lineTo(ancho - 16, yBase);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-
-    // Barra de origen
-    ctx.fillStyle = colorPrimario;
-    ctx.fillRect(xOrigen, yBase - alturaOrigenActual, anchoBarra, alturaOrigenActual);
-
-    // Barra de destino
-    ctx.fillStyle = colorAcento;
-    ctx.fillRect(xDestino, yBase - alturaDestinoActual, anchoBarra, alturaDestinoActual);
-
-    // Etiquetas
-    ctx.fillStyle = colorTexto;
-    ctx.font = "13px ui-monospace, 'Consolas', monospace";
-    ctx.textAlign = "center";
-    ctx.fillText(etiquetaOrigen, xOrigen + anchoBarra / 2, yBase + 20);
-    ctx.fillText(etiquetaDestino, xDestino + anchoBarra / 2, yBase + 20);
-  }
-
-  function paso(marcaTiempo) {
-    if (inicio === null) inicio = marcaTiempo;
-    const transcurrido = marcaTiempo - inicio;
-    const progreso = Math.min(transcurrido / duracionMs, 1);
-    // easing suave (ease-out)
-    const progresoSuavizado = 1 - Math.pow(1 - progreso, 3);
-
-    dibujarCuadro(
-      alturaFinalOrigen * progresoSuavizado,
-      alturaFinalDestino * progresoSuavizado
-    );
-
-    if (progreso < 1) {
-      ANIMACIONES_ACTIVAS[idCanvas] = requestAnimationFrame(paso);
+    ctx.fillStyle = text; ctx.textAlign = "center"; ctx.font = "800 13px system-ui";
+    ctx.fillText(etiquetaOrigen, x1 + barW / 2, baseY + 22);
+    ctx.fillText(etiquetaDestino, x2 + barW / 2, baseY + 22);
+    ctx.font = "700 12px system-ui"; ctx.fillStyle = "#697483";
+    ctx.fillText("ORIGEN", x1 + barW / 2, baseY - barH - 12);
+    ctx.fillText("DESTINO", x2 + barW / 2, baseY - barH - 12);
+    if (valorBase !== null && Number.isFinite(valorBase)) {
+      ctx.fillStyle = "#18202a"; ctx.font = "700 12px system-ui";
+      ctx.fillText("Equivalencia en unidad base: " + formatearNumero(valorBase), w / 2, 24);
+    } else {
+      ctx.fillStyle = "#18202a"; ctx.font = "700 12px system-ui";
+      ctx.fillText("Ambos representan la misma cantidad física", w / 2, 24);
     }
   }
-
-  ANIMACIONES_ACTIVAS[idCanvas] = requestAnimationFrame(paso);
+  function frame(t) {
+    if (start === null) start = t;
+    const p = Math.min((t - start) / 650, 1), eased = 1 - Math.pow(1 - p, 3);
+    draw(eased);
+    if (p < 1) ANIMACIONES_ACTIVAS[idCanvas] = requestAnimationFrame(frame);
+  }
+  ANIMACIONES_ACTIVAS[idCanvas] = requestAnimationFrame(frame);
 }
 
-/**
- * Dibuja un estado vacío/inicial en el canvas (líneas base sin barras).
- */
 function dibujarEstadoInicial(idCanvas) {
-  const canvas = document.getElementById(idCanvas);
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const estiloComputado = getComputedStyle(document.documentElement);
-  const colorTexto = estiloComputado.getPropertyValue("--color-texto").trim() || "#1A1D23";
-  ctx.strokeStyle = colorTexto;
-  ctx.globalAlpha = 0.25;
-  ctx.beginPath();
-  ctx.moveTo(16, canvas.height - 34);
-  ctx.lineTo(canvas.width - 16, canvas.height - 34);
-  ctx.stroke();
-  ctx.globalAlpha = 1;
+  const canvas = document.getElementById(idCanvas); if (!canvas) return;
+  const ctx = canvas.getContext("2d"), dpr = devicePixelRatio || 1;
+  const w = canvas.clientWidth || canvas.width, h = canvas.clientHeight || canvas.height;
+  canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h); ctx.fillStyle = "#f7f8fc"; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = "#697483"; ctx.textAlign = "center"; ctx.font = "600 13px system-ui";
+  ctx.fillText("Ingresa un valor para visualizar la equivalencia", w / 2, h / 2);
 }

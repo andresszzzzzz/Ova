@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practica · OVA Física</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">⚡ OVA Física</a>
+    <nav aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="contenidos.html">Aprende</a>
+      <a href="actividad.html">Practica</a>
+      <a href="evaluacion.html">Evalúate</a>
+    </nav>
+  </header>
+  <main>
+    <section class="page-hero compact"><span class="eyebrow">Paso 2 · Practica</span>
+      <h1>Laboratorio de conversiones</h1>
+      <p>Modifica cualquier dato. El resultado y el gráfico se actualizan inmediatamente.</p>
+    </section>
+    <section class="section">
+      <div class="lab-grid">
+        <div class="converter-card">
+          <div class="field"><label for="selector-magnitud">Magnitud</label><select id="selector-magnitud">
+              <option value="tiempo">Tiempo</option>
+              <option value="longitud">Longitud</option>
+              <option value="masa">Masa</option>
+              <option value="volumen">Volumen</option>
+            </select></div>
+          <div class="field"><label for="input-valor-origen">Valor</label><input type="text" id="input-valor-origen"
+              inputmode="decimal" placeholder="Ej. 12.5"><small id="mensaje-error-conversor"></small></div>
+          <div class="two">
+            <div class="field"><label for="selector-unidad-origen">Desde</label><select
+                id="selector-unidad-origen"></select></div>
+            <div class="field"><label for="selector-unidad-destino">Hasta</label><select
+                id="selector-unidad-destino"></select></div>
+          </div>
+          <div class="result-box"><span>Resultado</span><strong id="resultado-conversion">—</strong></div>
+          <div class="quick"><button type="button" data-valor="5">5</button><button type="button"
+              data-valor="12.5">12.5</button><button type="button" data-valor="100">100</button><button type="button"
+              data-valor="1000">1000</button></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><span>Visualización</span><small>La comparación está normalizada a la unidad
+              base.</small></div><canvas id="lienzo-conversor" width="560" height="300"></canvas>
+        </div>
+      </div>
+      <div class="challenge"><span class="eyebrow">Reto rápido</span>
+        <h3>¿Puedes predecir el resultado?</h3>
+        <p>Antes de cambiar los controles, calcula mentalmente cuánto son <strong>2,5 kg en gramos</strong>.</p><button
+          class="btn primary" type="button" id="btn-reto">Comprobar</button><span id="respuesta-reto"></span>
+      </div>
+    </section>
+  </main>
+  <footer>OVA Física · Conversión de magnitudes · SENA ADSO</footer>
+  <script src="js/conversiones.js"></script>
+  <script src="js/animacion.js"></script>
+  <script src="js/principal.js"></script>
+</body>
+
+</html>

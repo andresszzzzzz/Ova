@@ -1,403 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OVA · Conversión de Magnitudes Físicas</title>
-  <link rel="stylesheet" href="/css/estilos.css" />
-</head>
-<body>
 
-  <header class="encabezado-sitio">
-    <nav class="barra-navegacion" aria-label="Navegación principal del OVA">
-      <span class="marca-sitio">OVA Física · Conversión de Magnitudes</span>
-      <ul class="lista-navegacion">
-        <li><a href="#paso1">1. Introducción</a></li>
-        <li><a href="#paso2">2. Contenidos</a></li>
-        <li><a href="#paso3">3. Actividad</a></li>
-        <li><a href="#paso4">4. Evaluación</a></li>
-      </ul>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio · OVA Física</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">⚡ OVA Física</a>
+    <nav aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="contenidos.html">Aprende</a>
+      <a href="actividad.html">Practica</a>
+      <a href="evaluacion.html">Evalúate</a>
     </nav>
   </header>
-
   <main>
-
-    <!-- ===================== PASO 1: INTRODUCCIÓN Y OBJETIVOS ===================== -->
-    <section id="paso1" class="hero-introduccion" aria-labelledby="titulo-paso1">
-      <div class="hero-contenido">
-        <span class="etiqueta-paso">Paso 1 · Introducciónrs y objetivos</span>
-        <h1 id="titulo-paso1">Conversión de Magnitudes Físicas: Tiempo, Longitud, Masa y Volumen</h1>
-        <p>
-          Convertir unidades es una habilidad que se usa todos los días: en la cocina para ajustar
-          cantidades de una receta, en la construcción para calcular medidas y materiales, en el
-          laboratorio para reportar resultados con la unidad correcta, y en el comercio internacional
-          para interpretar pesos, volúmenes y tiempos de entrega expresados en sistemas distintos.
-          Sin dominar estas conversiones es fácil cometer errores costosos en cualquiera de estos contextos.
-        </p>
-        <div class="lista-competencias">
-          <div class="tarjeta-competencia">
-            <h3>Identificar magnitudes</h3>
-            <p>Reconocer si una cantidad corresponde a tiempo, longitud, masa o volumen y su unidad de origen.</p>
-          </div>
-          <div class="tarjeta-competencia">
-            <h3>Aplicar factores de conversión</h3>
-            <p>Usar correctamente el factor numérico que relaciona dos unidades de una misma magnitud.</p>
-          </div>
-          <div class="tarjeta-competencia">
-            <h3>Resolver problemas</h3>
-            <p>Aplicar la conversión de unidades para resolver situaciones prácticas del contexto real.</p>
-          </div>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">SENA · ADSO · OVA interactivo</span>
+        <h1>Convierte magnitudes físicas <span>sin enredos.</span></h1>
+        <p>Aprende, experimenta y comprueba tus resultados con Tiempo, Longitud, Masa y Volumen.</p>
+        <div class="actions">
+          <a class="btn primary" href="contenidos.html">Empezar a aprender →</a>
+          <a class="btn ghost" href="actividad.html">Ir al simulador</a>
+        </div>
+      </div>
+      <div class="hero-orbit" aria-hidden="true">
+        <div class="orbit-center">SI</div>
+        <div class="orbit o1">s</div>
+        <div class="orbit o2">m</div>
+        <div class="orbit o3">g</div>
+        <div class="orbit o4">ml</div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head"><span class="eyebrow">Ruta de aprendizaje</span>
+        <h2>Cuatro pasos, una misión</h2>
+      </div>
+      <div class="cards four">
+        <a class="feature-card" href="contenidos.html"><b>01</b>
+          <h3>Aprende</h3>
+          <p>Equivalencias, unidades base y ejemplos visuales.</p><span>Explorar →</span>
+        </a>
+        <a class="feature-card" href="actividad.html"><b>02</b>
+          <h3>Experimenta</h3>
+          <p>Prueba conversiones y observa el resultado en tiempo real.</p><span>Practicar →</span>
+        </a>
+        <a class="feature-card" href="evaluacion.html"><b>03</b>
+          <h3>Evalúate</h3>
+          <p>Resuelve situaciones diferentes a los ejemplos de clase.</p><span>Comenzar →</span>
+        </a>
+        <div class="feature-card"><b>04</b>
+          <h3>Domina</h3>
+          <p>Usa la unidad base como puente para evitar errores.</p><span>✓ Meta</span>
         </div>
       </div>
     </section>
-
-    <!-- ===================== PASO 2: CONTENIDOS MULTIMEDIALES ===================== -->
-    <section id="paso2" class="seccion" aria-labelledby="titulo-paso2">
-      <span class="etiqueta-paso">Paso 2 · Contenidos multimediales</span>
-      <h2 id="titulo-paso2">Equivalencias y ejemplos resueltos</h2>
-      <p class="subtitulo-seccion">
-        Selecciona una magnitud para ver su tabla de equivalencias y tres ejemplos resueltos paso a paso,
-        con una comparación visual del valor original frente al valor convertido.
-      </p>
-
-      <div class="pestanas-magnitud" role="tablist" aria-label="Selector de magnitud">
-        <button class="boton-pestana" role="tab" aria-selected="true" data-magnitud="tiempo">Tiempo</button>
-        <button class="boton-pestana" role="tab" aria-selected="false" data-magnitud="longitud">Longitud</button>
-        <button class="boton-pestana" role="tab" aria-selected="false" data-magnitud="masa">Masa</button>
-        <button class="boton-pestana" role="tab" aria-selected="false" data-magnitud="volumen">Volumen</button>
+    <section class="section dark-panel">
+      <div><span class="eyebrow">Método clave</span>
+        <h2>Origen → unidad base → destino</h2>
+        <p>Primero llevas el valor a la unidad base. Después lo conviertes a la unidad que necesitas.</p>
       </div>
-
-      <!-- PANEL TIEMPO -->
-      <div id="panel-tiempo" class="panel-magnitud panel-activo" role="tabpanel">
-        <table class="tabla-equivalencias">
-          <caption>Equivalencias de tiempo</caption>
-          <thead>
-            <tr><th>Unidad</th><th>Equivale a (en segundos)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 segundo (s)</td><td>1 s</td></tr>
-            <tr><td>1 minuto (min)</td><td>60 s</td></tr>
-            <tr><td>1 hora (h)</td><td>3600 s</td></tr>
-            <tr><td>1 día</td><td>86400 s</td></tr>
-          </tbody>
-        </table>
-
-        <h4 class="titulo-ejemplos">Ejemplos resueltos</h4>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 1: Convertir 150 minutos a horas</h4>
-            <ol>
-              <li>Factor: 1 h = 60 min</li>
-              <li>150 min ÷ 60 = <strong>2.5 h</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-tiempo-1" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="150" data-valor-destino="2.5"
-            data-etiqueta-origen="150 min" data-etiqueta-destino="2.5 h"
-            role="img" aria-label="Comparación de 150 minutos frente a 2.5 horas"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 2: Convertir 3 días a horas</h4>
-            <ol>
-              <li>Factor: 1 día = 24 h</li>
-              <li>3 día × 24 = <strong>72 h</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-tiempo-2" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="3" data-valor-destino="72"
-            data-etiqueta-origen="3 día" data-etiqueta-destino="72 h"
-            role="img" aria-label="Comparación de 3 días frente a 72 horas"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 3: Convertir 5400 segundos a minutos</h4>
-            <ol>
-              <li>Factor: 1 min = 60 s</li>
-              <li>5400 s ÷ 60 = <strong>90 min</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-tiempo-3" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="5400" data-valor-destino="90"
-            data-etiqueta-origen="5400 s" data-etiqueta-destino="90 min"
-            role="img" aria-label="Comparación de 5400 segundos frente a 90 minutos"></canvas>
-        </div>
-      </div>
-
-      <!-- PANEL LONGITUD -->
-      <div id="panel-longitud" class="panel-magnitud" role="tabpanel">
-        <table class="tabla-equivalencias">
-          <caption>Equivalencias de longitud</caption>
-          <thead>
-            <tr><th>Unidad</th><th>Equivale a (en metros)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 milímetro (mm)</td><td>0.001 m</td></tr>
-            <tr><td>1 centímetro (cm)</td><td>0.01 m</td></tr>
-            <tr><td>1 metro (m)</td><td>1 m</td></tr>
-            <tr><td>1 kilómetro (km)</td><td>1000 m</td></tr>
-          </tbody>
-        </table>
-
-        <h4 class="titulo-ejemplos">Ejemplos resueltos</h4>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 1: Convertir 250 cm a metros</h4>
-            <ol>
-              <li>Factor: 1 cm = 0.01 m</li>
-              <li>250 cm × 0.01 = <strong>2.5 m</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-longitud-1" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="250" data-valor-destino="2.5"
-            data-etiqueta-origen="250 cm" data-etiqueta-destino="2.5 m"
-            role="img" aria-label="Comparación de 250 centímetros frente a 2.5 metros"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 2: Convertir 3.2 km a metros</h4>
-            <ol>
-              <li>Factor: 1 km = 1000 m</li>
-              <li>3.2 km × 1000 = <strong>3200 m</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-longitud-2" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="3.2" data-valor-destino="3200"
-            data-etiqueta-origen="3.2 km" data-etiqueta-destino="3200 m"
-            role="img" aria-label="Comparación de 3.2 kilómetros frente a 3200 metros"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 3: Convertir 850 mm a centímetros</h4>
-            <ol>
-              <li>Factor: 1 cm = 10 mm</li>
-              <li>850 mm ÷ 10 = <strong>85 cm</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-longitud-3" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="850" data-valor-destino="85"
-            data-etiqueta-origen="850 mm" data-etiqueta-destino="85 cm"
-            role="img" aria-label="Comparación de 850 milímetros frente a 85 centímetros"></canvas>
-        </div>
-      </div>
-
-      <!-- PANEL MASA -->
-      <div id="panel-masa" class="panel-magnitud" role="tabpanel">
-        <table class="tabla-equivalencias">
-          <caption>Equivalencias de masa</caption>
-          <thead>
-            <tr><th>Unidad</th><th>Equivale a (en gramos)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 miligramo (mg)</td><td>0.001 g</td></tr>
-            <tr><td>1 gramo (g)</td><td>1 g</td></tr>
-            <tr><td>1 kilogramo (kg)</td><td>1000 g</td></tr>
-            <tr><td>1 libra (lb)</td><td>453.592 g</td></tr>
-          </tbody>
-        </table>
-
-        <h4 class="titulo-ejemplos">Ejemplos resueltos</h4>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 1: Convertir 2500 g a kilogramos</h4>
-            <ol>
-              <li>Factor: 1 kg = 1000 g</li>
-              <li>2500 g ÷ 1000 = <strong>2.5 kg</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-masa-1" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="2500" data-valor-destino="2.5"
-            data-etiqueta-origen="2500 g" data-etiqueta-destino="2.5 kg"
-            role="img" aria-label="Comparación de 2500 gramos frente a 2.5 kilogramos"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 2: Convertir 3 libras a gramos</h4>
-            <ol>
-              <li>Factor: 1 lb = 453.592 g</li>
-              <li>3 lb × 453.592 = <strong>1360.776 g</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-masa-2" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="3" data-valor-destino="1360.776"
-            data-etiqueta-origen="3 lb" data-etiqueta-destino="1360.78 g"
-            role="img" aria-label="Comparación de 3 libras frente a 1360.776 gramos"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 3: Convertir 750 mg a gramos</h4>
-            <ol>
-              <li>Factor: 1 mg = 0.001 g</li>
-              <li>750 mg × 0.001 = <strong>0.75 g</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-masa-3" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="750" data-valor-destino="0.75"
-            data-etiqueta-origen="750 mg" data-etiqueta-destino="0.75 g"
-            role="img" aria-label="Comparación de 750 miligramos frente a 0.75 gramos"></canvas>
-        </div>
-      </div>
-
-      <!-- PANEL VOLUMEN -->
-      <div id="panel-volumen" class="panel-magnitud" role="tabpanel">
-        <table class="tabla-equivalencias">
-          <caption>Equivalencias de volumen</caption>
-          <thead>
-            <tr><th>Unidad</th><th>Equivale a (en mililitros)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 mililitro (ml)</td><td>1 ml</td></tr>
-            <tr><td>1 centímetro cúbico (cm³)</td><td>1 ml</td></tr>
-            <tr><td>1 litro (l)</td><td>1000 ml</td></tr>
-            <tr><td>1 onza (oz)</td><td>29.5735 ml</td></tr>
-          </tbody>
-        </table>
-
-        <h4 class="titulo-ejemplos">Ejemplos resueltos</h4>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 1: Convertir 2 litros a mililitros</h4>
-            <ol>
-              <li>Factor: 1 l = 1000 ml</li>
-              <li>2 l × 1000 = <strong>2000 ml</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-volumen-1" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="2" data-valor-destino="2000"
-            data-etiqueta-origen="2 l" data-etiqueta-destino="2000 ml"
-            role="img" aria-label="Comparación de 2 litros frente a 2000 mililitros"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 2: Convertir 500 ml a onzas</h4>
-            <ol>
-              <li>Factor: 1 oz = 29.5735 ml</li>
-              <li>500 ml ÷ 29.5735 ≈ <strong>16.91 oz</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-volumen-2" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="500" data-valor-destino="16.91"
-            data-etiqueta-origen="500 ml" data-etiqueta-destino="16.91 oz"
-            role="img" aria-label="Comparación de 500 mililitros frente a 16.91 onzas"></canvas>
-        </div>
-
-        <div class="tarjeta-ejemplo">
-          <div>
-            <h4>Ejemplo 3: Convertir 3 cm³ a mililitros</h4>
-            <ol>
-              <li>Factor: 1 cm³ = 1 ml</li>
-              <li>3 cm³ × 1 = <strong>3 ml</strong></li>
-            </ol>
-          </div>
-          <canvas id="ejemplo-volumen-3" class="lienzo-ejemplo" width="220" height="130"
-            data-ejemplo-canvas data-valor-origen="3" data-valor-destino="3"
-            data-etiqueta-origen="3 cm³" data-etiqueta-destino="3 ml"
-            role="img" aria-label="Comparación de 3 centímetros cúbicos frente a 3 mililitros"></canvas>
-        </div>
-      </div>
+      <div class="formula-flow"><span>12 min</span><i>× 60</i><span>720 s</span><i>÷ 3600</i><span>0,2 h</span></div>
     </section>
-
-    <!-- ===================== PASO 3: ACTIVIDADES DE APRENDIZAJE ===================== -->
-    <section id="paso3" class="seccion" aria-labelledby="titulo-paso3">
-      <span class="etiqueta-paso">Paso 3 · Actividades de aprendizaje</span>
-      <h2 id="titulo-paso3">Conversor interactivo</h2>
-      <p class="subtitulo-seccion">
-        Ingresa un número, elige la magnitud y las unidades de origen y destino. El resultado
-        se calcula al instante, sin recargar la página.
-      </p>
-
-      <div class="panel-conversor">
-        <div class="controles-conversor">
-
-          <div class="grupo-campo">
-            <label for="selector-magnitud">Magnitud</label>
-            <select id="selector-magnitud">
-              <option value="tiempo">Tiempo</option>
-              <option value="longitud">Longitud</option>
-              <option value="masa">Masa</option>
-              <option value="volumen">Volumen</option>
-            </select>
-          </div>
-
-          <div class="grupo-campo">
-            <label for="input-valor-origen">Valor a convertir</label>
-            <input type="text" id="input-valor-origen" inputmode="decimal" placeholder="Ej: 12.5" />
-            <p id="mensaje-error-conversor" class="mensaje-error-conversor"></p>
-          </div>
-
-          <div class="fila-doble-selector">
-            <div class="grupo-campo">
-              <label for="selector-unidad-origen">Unidad de origen</label>
-              <select id="selector-unidad-origen"></select>
-            </div>
-            <div class="grupo-campo">
-              <label for="selector-unidad-destino">Unidad de destino</label>
-              <select id="selector-unidad-destino"></select>
-            </div>
-          </div>
-
-          <div class="caja-resultado">
-            <span>Resultado</span>
-            <span id="resultado-conversion">—</span>
-          </div>
-        </div>
-
-        <div class="visualizacion-conversor">
-          <p>Comparación visual entre el valor de origen y el valor convertido</p>
-          <canvas id="lienzo-conversor" width="380" height="220"
-            role="img" aria-label="Comparación visual entre el valor de origen y el valor convertido"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== PASO 4: EVALUACIÓN ===================== -->
-    <section id="paso4" class="seccion" aria-labelledby="titulo-paso4">
-      <span class="etiqueta-paso">Paso 4 · Evaluación</span>
-      <h2 id="titulo-paso4">Verificación de logros</h2>
-      <p class="subtitulo-seccion">
-        Responde las 10 preguntas de conversión. Al calificar recibirás retroalimentación inmediata
-        que explica el procedimiento correcto en las preguntas que hayas fallado.
-      </p>
-
-      <div id="contenedor-preguntas"></div>
-
-      <div class="contenedor-boton-calificar">
-        <button id="boton-calificar" class="boton-primario" type="button">Calificar evaluación</button>
-      </div>
-    </section>
-
   </main>
+  <footer>OVA Física · Conversión de magnitudes · SENA ADSO</footer>
 
-  <footer class="pie-sitio">
-    OVA Física · Tecnólogo en Análisis y Desarrollo de Software · SENA
-  </footer>
-
-  <!-- Modal propio de retroalimentación (nunca alert() ni validaciones nativas de HTML) -->
-  <div id="modal-retroalimentacion" class="fondo-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
-    <div class="caja-modal">
-      <h3 id="modal-titulo"></h3>
-      <p id="modal-mensaje"></p>
-      <ul id="modal-lista-errores"></ul>
-      <div class="contenedor-boton-modal">
-        <button id="modal-cerrar" class="boton-primario" type="button">Cerrar</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/conversiones.js"></script>
-  <script src="js/animacion.js"></script>
-  <script src="js/evaluacion.js"></script>
-  <script src="js/principal.js"></script>
 </body>
+
 </html>

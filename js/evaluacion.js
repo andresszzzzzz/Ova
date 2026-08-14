@@ -1,294 +1,54 @@
-/**
- * evaluacion.js
- * Define el banco de preguntas (mínimo 10), valida las respuestas del
- * estudiante y muestra retroalimentación inmediata mediante un modal
- * propio (no se usa alert() ni validaciones nativas de HTML).
- */
-
 const PREGUNTAS = [
-  {
-    id: "p1",
-    tipo: "opcion",
-    magnitud: "tiempo",
-    enunciado: "¿Cuántos segundos hay en 5 minutos?",
-    opciones: ["250", "300", "350", "400"],
-    respuesta: "300",
-    procedimiento: "5 min × 60 s/min = 300 s. Se multiplica por el factor de minutos a segundos (60)."
-  },
-  {
-    id: "p2",
-    tipo: "completar",
-    magnitud: "tiempo",
-    enunciado: "Convierte 2 horas a minutos:",
-    unidadResultado: "min",
-    respuesta: 120,
-    tolerancia: 0.5,
-    procedimiento: "2 h × 60 min/h = 120 min. Se multiplica por el factor de horas a minutos (60)."
-  },
-  {
-    id: "p3",
-    tipo: "opcion",
-    magnitud: "tiempo",
-    enunciado: "3 días equivalen a:",
-    opciones: ["48 horas", "72 horas", "96 horas", "24 horas"],
-    respuesta: "72 horas",
-    procedimiento: "3 día × 24 h/día = 72 h. Cada día tiene 24 horas."
-  },
-  {
-    id: "p4",
-    tipo: "completar",
-    magnitud: "longitud",
-    enunciado: "1500 mm equivalen a cuántos cm:",
-    unidadResultado: "cm",
-    respuesta: 150,
-    tolerancia: 0.5,
-    procedimiento: "1500 mm ÷ 10 = 150 cm, ya que 1 cm = 10 mm."
-  },
-  {
-    id: "p5",
-    tipo: "opcion",
-    magnitud: "longitud",
-    enunciado: "¿Cuántos metros hay en 4.5 km?",
-    opciones: ["45 m", "450 m", "4500 m", "0.45 m"],
-    respuesta: "4500 m",
-    procedimiento: "4.5 km × 1000 m/km = 4500 m. Se multiplica por el factor de km a m (1000)."
-  },
-  {
-    id: "p6",
-    tipo: "completar",
-    magnitud: "longitud",
-    enunciado: "Convierte 320 cm a metros:",
-    unidadResultado: "m",
-    respuesta: 3.2,
-    tolerancia: 0.05,
-    procedimiento: "320 cm × 0.01 m/cm = 3.2 m. Se multiplica por el factor de cm a m (0.01)."
-  },
-  {
-    id: "p7",
-    tipo: "opcion",
-    magnitud: "masa",
-    enunciado: "¿A cuántos gramos equivalen 2 kg?",
-    opciones: ["200 g", "2000 g", "20000 g", "0.2 g"],
-    respuesta: "2000 g",
-    procedimiento: "2 kg × 1000 g/kg = 2000 g. Se multiplica por el factor de kg a g (1000)."
-  },
-  {
-    id: "p8",
-    tipo: "completar",
-    magnitud: "masa",
-    enunciado: "Convierte 5 libras a gramos (usa 1 lb = 453.592 g):",
-    unidadResultado: "g",
-    respuesta: 2267.96,
-    tolerancia: 2,
-    procedimiento: "5 lb × 453.592 g/lb = 2267.96 g. Se multiplica por el factor de libras a gramos."
-  },
-  {
-    id: "p9",
-    tipo: "opcion",
-    magnitud: "volumen",
-    enunciado: "¿Cuántos ml hay en 1.5 litros?",
-    opciones: ["150 ml", "1500 ml", "15000 ml", "15 ml"],
-    respuesta: "1500 ml",
-    procedimiento: "1.5 l × 1000 ml/l = 1500 ml. Se multiplica por el factor de litros a ml (1000)."
-  },
-  {
-    id: "p10",
-    tipo: "completar",
-    magnitud: "volumen",
-    enunciado: "Convierte 6 onzas a mililitros (usa 1 oz = 29.5735 ml):",
-    unidadResultado: "ml",
-    respuesta: 177.44,
-    tolerancia: 1,
-    procedimiento: "6 oz × 29.5735 ml/oz = 177.44 ml. Se multiplica por el factor de onzas a ml."
-  }
+  { id: "n1", tipo: "opcion", enunciado: "Una película dura 2 horas y 30 minutos. ¿Cuántos minutos dura en total?", opciones: ["120 min", "130 min", "150 min", "180 min"], respuesta: "150 min", explicacion: "2 h × 60 = 120 min; 120 + 30 = 150 min." },
+  { id: "n2", tipo: "completar", enunciado: "Una caminata mide 1,8 km. ¿Cuántos metros son?", respuesta: 1800, tolerancia: 0.5, unidad: "m", explicacion: "1,8 km × 1000 m/km = 1800 m." },
+  { id: "n3", tipo: "opcion", enunciado: "Una receta necesita 750 ml de agua. ¿Qué cantidad en litros corresponde?", opciones: ["0,075 L", "0,75 L", "7,5 L", "75 L"], respuesta: "0,75 L", explicacion: "750 ml ÷ 1000 = 0,75 L." },
+  { id: "n4", tipo: "completar", enunciado: "Un paquete pesa 3,5 kg. Convierte el peso a gramos.", respuesta: 3500, tolerancia: 0.5, unidad: "g", explicacion: "3,5 kg × 1000 g/kg = 3500 g." },
+  { id: "n5", tipo: "opcion", enunciado: "¿Cuál es la unidad base utilizada por este OVA para la longitud?", opciones: ["cm", "mm", "m", "km"], respuesta: "m", explicacion: "La unidad base definida para longitud es el metro (m)." },
+  { id: "n6", tipo: "completar", enunciado: "Convierte 4,5 horas a segundos.", respuesta: 16200, tolerancia: 1, unidad: "s", explicacion: "4,5 h × 3600 s/h = 16 200 s." },
+  { id: "n7", tipo: "opcion", enunciado: "Un vaso contiene 250 ml. ¿Cuántos centímetros cúbicos (cm³) contiene?", opciones: ["25 cm³", "250 cm³", "2500 cm³", "0,25 cm³"], respuesta: "250 cm³", explicacion: "1 ml = 1 cm³, por lo tanto 250 ml = 250 cm³." },
+  { id: "n8", tipo: "completar", enunciado: "Una bolsa contiene 2 libras. Usa 1 lb = 453,592 g. ¿Cuántos gramos son?", respuesta: 907.184, tolerancia: 1, unidad: "g", explicacion: "2 lb × 453,592 g/lb = 907,184 g." },
+  { id: "n9", tipo: "opcion", enunciado: "Para convertir 600 cm a metros debes:", opciones: ["multiplicar por 1000", "dividir entre 100", "multiplicar por 100", "dividir entre 10"], respuesta: "dividir entre 100", explicacion: "1 m = 100 cm; por eso 600 ÷ 100 = 6 m." },
+  { id: "n10", tipo: "completar", enunciado: "Una botella tiene 1,25 litros. ¿Cuántos mililitros contiene?", respuesta: 1250, tolerancia: 0.5, unidad: "ml", explicacion: "1,25 L × 1000 ml/L = 1250 ml." }
 ];
+let indice = 0, respuestas = {};
 
-let respuestasEstudiante = {};
-
-/**
- * Construye dinámicamente el formulario de evaluación dentro del contenedor dado.
- */
-function construirEvaluacion(idContenedor) {
-  const contenedor = document.getElementById(idContenedor);
-  if (!contenedor) return;
-
-  contenedor.innerHTML = "";
-
-  PREGUNTAS.forEach((pregunta, indice) => {
-    const tarjeta = document.createElement("div");
-    tarjeta.className = "tarjeta-pregunta";
-    tarjeta.setAttribute("data-id", pregunta.id);
-
-    const numero = document.createElement("p");
-    numero.className = "numero-pregunta";
-    numero.textContent = "Pregunta " + (indice + 1) + " de " + PREGUNTAS.length;
-    tarjeta.appendChild(numero);
-
-    const enunciado = document.createElement("p");
-    enunciado.className = "enunciado-pregunta";
-    enunciado.textContent = pregunta.enunciado;
-    tarjeta.appendChild(enunciado);
-
-    if (pregunta.tipo === "opcion") {
-      const listaOpciones = document.createElement("div");
-      listaOpciones.className = "lista-opciones";
-      pregunta.opciones.forEach((opcion, indiceOpcion) => {
-        const idInput = pregunta.id + "-opcion-" + indiceOpcion;
-        const contenedorOpcion = document.createElement("label");
-        contenedorOpcion.className = "opcion-radio";
-        contenedorOpcion.setAttribute("for", idInput);
-
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = pregunta.id;
-        input.id = idInput;
-        input.value = opcion;
-
-        contenedorOpcion.appendChild(input);
-        contenedorOpcion.appendChild(document.createTextNode(" " + opcion));
-        listaOpciones.appendChild(contenedorOpcion);
-      });
-      tarjeta.appendChild(listaOpciones);
-    } else {
-      const contenedorInput = document.createElement("div");
-      contenedorInput.className = "contenedor-input-completar";
-
-      const input = document.createElement("input");
-      input.type = "text";
-      input.inputMode = "decimal";
-      input.id = pregunta.id + "-respuesta";
-      input.className = "input-completar";
-      input.setAttribute("placeholder", "Escribe el valor numérico");
-      input.setAttribute("aria-label", pregunta.enunciado);
-
-      const etiquetaUnidad = document.createElement("span");
-      etiquetaUnidad.className = "etiqueta-unidad-pregunta";
-      etiquetaUnidad.textContent = pregunta.unidadResultado;
-
-      contenedorInput.appendChild(input);
-      contenedorInput.appendChild(etiquetaUnidad);
-      tarjeta.appendChild(contenedorInput);
-
-      const mensajeError = document.createElement("p");
-      mensajeError.className = "mensaje-error-pregunta";
-      mensajeError.setAttribute("data-error-para", pregunta.id);
-      tarjeta.appendChild(mensajeError);
-    }
-
-    contenedor.appendChild(tarjeta);
-  });
-}
-
-/**
- * Valida todas las respuestas, calcula el puntaje y muestra el modal de resultados.
- */
-function calificarEvaluacion() {
-  let aciertos = 0;
-  const detalleErrores = [];
-  let hayEntradaInvalida = false;
-
-  PREGUNTAS.forEach((pregunta) => {
-    if (pregunta.tipo === "opcion") {
-      const seleccionado = document.querySelector('input[name="' + pregunta.id + '"]:checked');
-      const valorSeleccionado = seleccionado ? seleccionado.value : null;
-      if (valorSeleccionado === pregunta.respuesta) {
-        aciertos++;
-      } else {
-        detalleErrores.push({
-          enunciado: pregunta.enunciado,
-          procedimiento: pregunta.procedimiento
-        });
-      }
-    } else {
-      const campoInput = document.getElementById(pregunta.id + "-respuesta");
-      const campoError = document.querySelector('[data-error-para="' + pregunta.id + '"]');
-      const textoIngresado = campoInput.value.trim();
-
-      if (textoIngresado === "") {
-        campoError.textContent = "Este campo es obligatorio.";
-        campoInput.classList.add("input-invalido");
-        hayEntradaInvalida = true;
-        return;
-      }
-
-      const expresionNumerica = /^-?\d+(\.\d+)?$/;
-      if (!expresionNumerica.test(textoIngresado)) {
-        campoError.textContent = "Ingresa solo un valor numérico (sin letras ni símbolos).";
-        campoInput.classList.add("input-invalido");
-        hayEntradaInvalida = true;
-        return;
-      }
-
-      campoError.textContent = "";
-      campoInput.classList.remove("input-invalido");
-
-      const valorIngresado = parseFloat(textoIngresado);
-      const diferencia = Math.abs(valorIngresado - pregunta.respuesta);
-      if (diferencia <= pregunta.tolerancia) {
-        aciertos++;
-      } else {
-        detalleErrores.push({
-          enunciado: pregunta.enunciado,
-          procedimiento: pregunta.procedimiento
-        });
-      }
-    }
-  });
-
-  if (hayEntradaInvalida) {
-    mostrarModal(
-      "Revisa tus respuestas",
-      "Hay campos vacíos o con caracteres no numéricos. Corrígelos antes de calificar la evaluación.",
-      []
-    );
-    return;
+document.addEventListener("DOMContentLoaded", () => {
+  const cont = document.getElementById("contenedor-preguntas"); if (!cont) return;
+  renderPregunta();
+  document.getElementById("anterior").addEventListener("click", () => { if (indice > 0) { indice--; renderPregunta() } });
+  document.getElementById("siguiente").addEventListener("click", () => { guardarRespuesta(); if (indice < PREGUNTAS.length - 1) { indice++; renderPregunta() } });
+  document.getElementById("boton-calificar").addEventListener("click", calificar);
+});
+function renderPregunta() {
+  const p = PREGUNTAS[indice], cont = document.getElementById("contenedor-preguntas");
+  document.getElementById("progreso-texto").textContent = `Pregunta ${indice + 1} de ${PREGUNTAS.length}`;
+  document.getElementById("barra-progreso").style.width = `${((indice + 1) / PREGUNTAS.length) * 100}%`;
+  document.getElementById("anterior").classList.toggle("hidden", indice === 0);
+  document.getElementById("siguiente").classList.toggle("hidden", indice === PREGUNTAS.length - 1);
+  document.getElementById("boton-calificar").classList.toggle("hidden", indice !== PREGUNTAS.length - 1);
+  let html = `<div class="pregunta-card"><span class="eyebrow">${p.tipo === "opcion" ? "Selección múltiple" : "Respuesta numérica"}</span><h2>${p.enunciado}</h2>`;
+  if (p.tipo === "opcion") {
+    html += '<div class="opciones">' + p.opciones.map(o => `<button type="button" class="opcion ${respuestas[p.id] === o ? "selected" : ""}" data-value="${o.replace(/"/g, "&quot;")}">${o}</button>`).join("") + '</div>';
+  } else {
+    html += `<input class="respuesta-input" id="respuesta-num" inputmode="decimal" placeholder="Escribe tu respuesta${p.unidad ? " en " + p.unidad : ""}" value="${respuestas[p.id] ?? ""}">`;
   }
-
-  const total = PREGUNTAS.length;
-  const tituloResultado = aciertos === total
-    ? "¡Excelente! Respondiste todo correctamente"
-    : "Resultado de la evaluación";
-  const mensajeResultado = "Obtuviste " + aciertos + " de " + total + " respuestas correctas.";
-
-  mostrarModal(tituloResultado, mensajeResultado, detalleErrores);
+  html += "</div>"; cont.innerHTML = html;
+  cont.querySelectorAll(".opcion").forEach(b => b.addEventListener("click", () => { respuestas[p.id] = b.dataset.value; renderPregunta() }));
 }
-
-/**
- * Muestra el modal propio de retroalimentación (nunca alert()).
- */
-function mostrarModal(titulo, mensaje, listaErrores) {
-  const modal = document.getElementById("modal-retroalimentacion");
-  const tituloModal = document.getElementById("modal-titulo");
-  const mensajeModal = document.getElementById("modal-mensaje");
-  const listaModal = document.getElementById("modal-lista-errores");
-
-  tituloModal.textContent = titulo;
-  mensajeModal.textContent = mensaje;
-  listaModal.innerHTML = "";
-
-  if (listaErrores.length > 0) {
-    const subtitulo = document.createElement("p");
-    subtitulo.className = "modal-subtitulo-errores";
-    subtitulo.textContent = "Procedimiento correcto de las preguntas falladas:";
-    listaModal.appendChild(subtitulo);
-
-    listaErrores.forEach((error) => {
-      const elementoLista = document.createElement("li");
-      const enunciadoFuerte = document.createElement("strong");
-      enunciadoFuerte.textContent = error.enunciado + " ";
-      elementoLista.appendChild(enunciadoFuerte);
-      elementoLista.appendChild(document.createTextNode(error.procedimiento));
-      listaModal.appendChild(elementoLista);
-    });
-  }
-
-  modal.classList.add("modal-visible");
-  modal.setAttribute("aria-hidden", "false");
-  document.getElementById("modal-cerrar").focus();
+function guardarRespuesta() {
+  const p = PREGUNTAS[indice], input = document.getElementById("respuesta-num");
+  if (input) respuestas[p.id] = input.value.replace(",", ".").trim();
 }
-
-function cerrarModal() {
-  const modal = document.getElementById("modal-retroalimentacion");
-  modal.classList.remove("modal-visible");
-  modal.setAttribute("aria-hidden", "true");
+function calificar() {
+  guardarRespuesta(); let puntos = 0, detalle = [];
+  PREGUNTAS.forEach(p => {
+    const r = respuestas[p.id]; let ok = false;
+    if (p.tipo === "opcion") ok = r === p.respuesta;
+    else ok = r !== undefined && r !== "" && Math.abs(Number(r) - p.respuesta) <= p.tolerancia;
+    if (ok) puntos++; detalle.push({ p, ok, r });
+  });
+  const porcentaje = puntos * 10;
+  const box = document.getElementById("resultado-final"); box.classList.remove("hidden");
+  box.innerHTML = `<h2>${puntos}/10 · ${porcentaje}%</h2><p>${puntos >= 8 ? "¡Excelente! Dominas las conversiones." : puntos >= 6 ? "Buen trabajo. Repasa las preguntas que fallaste." : "Sigue practicando con el laboratorio y vuelve a intentarlo."}</p><div>${detalle.map((d, i) => `<p><strong>${i + 1}. ${d.ok ? "✓ Correcta" : "✗ Para mejorar"}</strong> ${d.ok ? "" : `Respuesta esperada: ${d.p.respuesta}. ${d.p.explicacion}`}</p>`).join("")}</div>`;
+  box.scrollIntoView({ behavior: "smooth", block: "start" });
 }
