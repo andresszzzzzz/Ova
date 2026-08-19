@@ -16,13 +16,30 @@ function animarBarras(idCanvas, valorOrigen, valorDestino, etiquetaOrigen, etiqu
   const w = cssWidth, h = cssHeight, baseY = h - 45, maxH = h - 105;
   const text = getComputedStyle(document.documentElement).getPropertyValue("--color-texto").trim() || "#18202a";
   const primary = "#5266e8", accent = "#8b5cf6";
+
+  // --- NUEVA LÓGICA DE INTENSIDAD DINÁMICA ---
+  const numValor = parseFloat(valorOrigen) || 0;
+  let duracion = 650;
+  let tipoMovimiento = 'suave'; // Por defecto
+
+  if (numValor > 500) {
+    duracion = 800; // Un poco más pausado y dramático
+    tipoMovimiento = 'rebote'; // Mayor dinamismo y rebote al final
+  } else if (numValor <= 10) {
+    duracion = 400; // Más rápido y directo
+    tipoMovimiento = 'rapido';
+  }
+
   let start = null;
 
-  function draw(progress) {
+  function draw(progress, scaleFactor = 1) {
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = "#f7f8fc"; ctx.fillRect(0, 0, w, h);
     const barW = Math.min(100, w * .22), x1 = w * .28 - barW / 2, x2 = w * .72 - barW / 2;
-    const barH = maxH * .72 * progress;
+
+    // Altura modificada con el factor de escala dinámico según la magnitud
+    const barH = maxH * .72 * progress * scaleFactor;
+
     ctx.strokeStyle = "#d8deea"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(25, baseY); ctx.lineTo(w - 25, baseY); ctx.stroke();
 
@@ -35,6 +52,7 @@ function animarBarras(idCanvas, valorOrigen, valorDestino, etiquetaOrigen, etiqu
     ctx.font = "700 12px system-ui"; ctx.fillStyle = "#697483";
     ctx.fillText("ORIGEN", x1 + barW / 2, baseY - barH - 12);
     ctx.fillText("DESTINO", x2 + barW / 2, baseY - barH - 12);
+
     if (valorBase !== null && Number.isFinite(valorBase)) {
       ctx.fillStyle = "#18202a"; ctx.font = "700 12px system-ui";
       ctx.fillText("Equivalencia en unidad base: " + formatearNumero(valorBase), w / 2, 24);
@@ -43,12 +61,33 @@ function animarBarras(idCanvas, valorOrigen, valorDestino, etiquetaOrigen, etiqu
       ctx.fillText("Ambos representan la misma cantidad física", w / 2, 24);
     }
   }
+
   function frame(t) {
     if (start === null) start = t;
-    const p = Math.min((t - start) / 650, 1), eased = 1 - Math.pow(1 - p, 3);
-    draw(eased);
+    const p = Math.min((t - start) / duracion, 1);
+
+    let eased = 0;
+    let extraScale = 1;
+
+    if (tipoMovimiento === 'rebote') {
+      // Curva matemática con efecto elástico / rebote (Back out) para valores altos
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      eased = p === 1 ? 1 : 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+      // Pulso dinámico sutil mientras suben las barras grandes
+      extraScale = 1 + Math.sin(p * Math.PI) * 0.03;
+    } else if (tipoMovimiento === 'rapido') {
+      // Transición rápida y limpia para valores pequeños
+      eased = 1 - Math.pow(1 - p, 2);
+    } else {
+      // Transición estándar cúbica para valores medianos
+      eased = 1 - Math.pow(1 - p, 3);
+    }
+
+    draw(Math.max(0, eased), extraScale);
     if (p < 1) ANIMACIONES_ACTIVAS[idCanvas] = requestAnimationFrame(frame);
   }
+
   ANIMACIONES_ACTIVAS[idCanvas] = requestAnimationFrame(frame);
 }
 

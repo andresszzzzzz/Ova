@@ -1,0 +1,41 @@
+
+@keyframes entradaSeccion{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes entradaZoom{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes flotar{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-12px,0)}}
+@keyframes pulso{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes onda{0%{transform:scale(0);opacity:.55}100%{transform:scale(14);opacity:0}}
+@keyframes popResultado{0%{transform:scale(.9)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes seleccion{0%{transform:scale(.98)}100%{transform:scale(1)}}
+
+.modal-visual{position:fixed;inset:0;z-index:100;background:rgba(11,18,29,.58);backdrop-filter:blur(7px);display:grid;place-items:center;padding:20px;opacity:1;transition:opacity .25s ease}
+.modal-visual.oculto{opacity:0;pointer-events:none}
+.modal-panel{position:relative;width:min(480px,100%);background:#fff;border-radius:26px;padding:32px;box-shadow:0 30px 80px rgba(0,0,0,.25);transform:translateY(0) scale(1);animation:modalEntrada .35s cubic-bezier(.22,.61,.36,1)}
+.modal-visual.oculto .modal-panel{animation:modalSalida .2s ease forwards}
+.modal-cerrar{position:absolute;top:12px;right:14px;width:38px;height:38px;border:0;border-radius:50%;background:#f1f3f7;font-size:1.5rem;cursor:pointer;transition:transform .2s,background .2s}
+.modal-cerrar:hover{transform:rotate(6deg) scale(1.05);background:#e8ebf2}
+.modal-icono{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#e9f9f1,#eef1ff);color:var(--color-exito);font-weight:950;font-size:1.35rem;margin-bottom:16px}
+.modal-panel h2{margin:4px 0 8px;font-size:1.8rem;letter-spacing:-.03em}.modal-panel p:not(.eyebrow){color:var(--color-texto-suave)}
+.modal-aceptar{margin-top:10px;width:100%}
+body.modal-abierto{overflow:hidden}
+.resultado-apareciendo{animation:entradaZoom .5s both}
+@keyframes modalEntrada{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes modalSalida{from{opacity:1;transform:none}to{opacity:0;transform:translateY(10px) scale(.98)}}
+
+
+/* Resultado de evaluación en modal */
+.modal-panel:has(.resultado-modal){width:min(680px,100%);max-height:min(86vh,760px);overflow:auto}
+.modal-mensaje{display:block}
+.resultado-modal{text-align:center}
+.resultado-puntaje{font-size:3.2rem;line-height:1;font-weight:950;color:var(--color-primario)}
+.resultado-puntaje small{font-size:1.4rem;color:#697483}
+.resultado-porcentaje{margin-top:7px;font-size:1.05rem;font-weight:850;color:#596272}
+.resultado-mensaje{margin:14px auto 20px;max-width:560px;color:var(--color-texto-suave)}
+.detalle-resultados{display:grid;gap:8px;text-align:left;max-height:330px;overflow:auto;padding-right:5px}
+.detalle-resultado{padding:10px 12px;border-radius:10px;border:1px solid #e5e8ef;background:#f8f9fb}
+.detalle-resultado.correcta{background:#f0fff4;border-color:#c6f6d5}
+.detalle-resultado.incorrecta{background:#fff5f5;border-color:#fed7d7}
+.detalle-resultado strong{display:block;margin-bottom:4px}
+.detalle-resultado div{font-size:.86rem;color:#596272}
+.detalle-resultado span{font-weight:800}
+.detalle-resultado small{display:block;margin-top:4px;color:#697483;line-height:1.4}
+@media(max-width:700px){.modal-panel:has(.resultado-modal){padding:24px;max-height:90vh}.resultado-puntaje{font-size:2.7rem}}

@@ -1,0 +1,17 @@
+:root{
+  --color-primario:#5266e8;
+  --color-secundario:#eef1ff;
+  --color-acento:#8b5cf6;
+  --color-fondo:#f5f7fb;
+  --color-superficie:#fff;
+  --color-superficie-acento:#eef1ff;
+  --color-texto:#18202a;
+  --color-texto-suave:#657080;
+  --color-exito:#16835b;
+  --color-error:#c13d4a;
+  --color-borde:#e1e6ef;
+  --sombra:0 18px 45px rgba(26,36,48,.10);
+  --sombra-fuerte:0 30px 80px rgba(92,110,160,.20);
+  --radio:20px;
+  --transicion:.25s cubic-bezier(.22,.61,.36,1);
+}

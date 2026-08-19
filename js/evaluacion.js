@@ -17,8 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPregunta();
   document.getElementById("anterior").addEventListener("click", () => { if (indice > 0) { indice--; renderPregunta() } });
   document.getElementById("siguiente").addEventListener("click", () => { guardarRespuesta(); if (indice < PREGUNTAS.length - 1) { indice++; renderPregunta() } });
-  document.getElementById("boton-calificar").addEventListener("click", calificar);
+  document.getElementById("boton-calificar").addEventListener("click", (evento) => {
+    evento.preventDefault();
+    calificar();
+  });
 });
+
 function renderPregunta() {
   const p = PREGUNTAS[indice], cont = document.getElementById("contenedor-preguntas");
   document.getElementById("progreso-texto").textContent = `Pregunta ${indice + 1} de ${PREGUNTAS.length}`;
@@ -35,20 +39,97 @@ function renderPregunta() {
   html += "</div>"; cont.innerHTML = html;
   cont.querySelectorAll(".opcion").forEach(b => b.addEventListener("click", () => { respuestas[p.id] = b.dataset.value; renderPregunta() }));
 }
+
 function guardarRespuesta() {
   const p = PREGUNTAS[indice], input = document.getElementById("respuesta-num");
   if (input) respuestas[p.id] = input.value.replace(",", ".").trim();
 }
+
 function calificar() {
-  guardarRespuesta(); let puntos = 0, detalle = [];
+  const boton = document.getElementById("boton-calificar");
+  if (boton?.dataset.calificando === "1") return;
+  if (boton) boton.dataset.calificando = "1";
+
+  guardarRespuesta();
+
+  let puntos = 0;
+  const detalle = [];
+
   PREGUNTAS.forEach(p => {
-    const r = respuestas[p.id]; let ok = false;
-    if (p.tipo === "opcion") ok = r === p.respuesta;
-    else ok = r !== undefined && r !== "" && Math.abs(Number(r) - p.respuesta) <= p.tolerancia;
-    if (ok) puntos++; detalle.push({ p, ok, r });
+    const r = respuestas[p.id];
+    let ok = false;
+
+    if (p.tipo === "opcion") {
+      ok = r === p.respuesta;
+    } else {
+      ok = r !== undefined && r !== "" && Number.isFinite(Number(r)) &&
+        Math.abs(Number(r) - p.respuesta) <= p.tolerancia;
+    }
+
+    if (ok) puntos++;
+    detalle.push({ p, ok, r });
   });
+
   const porcentaje = puntos * 10;
-  const box = document.getElementById("resultado-final"); box.classList.remove("hidden");
-  box.innerHTML = `<h2>${puntos}/10 · ${porcentaje}%</h2><p>${puntos >= 8 ? "¡Excelente! Dominas las conversiones." : puntos >= 6 ? "Buen trabajo. Repasa las preguntas que fallaste." : "Sigue practicando con el laboratorio y vuelve a intentarlo."}</p><div>${detalle.map((d, i) => `<p><strong>${i + 1}. ${d.ok ? "✓ Correcta" : "✗ Para mejorar"}</strong> ${d.ok ? "" : `Respuesta esperada: ${d.p.respuesta}. ${d.p.explicacion}`}</p>`).join("")}</div>`;
-  box.scrollIntoView({ behavior: "smooth", block: "start" });
+  const contPreguntas = document.getElementById("contenedor-preguntas");
+  const quizActions = document.querySelector(".quiz-actions");
+  const quizProgress = document.querySelector(".quiz-progress");
+  const box = document.getElementById("resultado-final");
+
+  // Mantener también el resultado integrado como respaldo si el modal se cierra.
+  const mensaje = puntos >= 8
+    ? "¡Excelente! Dominas las conversiones."
+    : puntos >= 6
+      ? "Buen trabajo. Repasa las preguntas que fallaste."
+      : "Sigue practicando con el laboratorio y vuelve a intentarlo.";
+
+  const detalleHtml = detalle.map((d, i) => `
+    <div class="detalle-resultado ${d.ok ? "correcta" : "incorrecta"}">
+      <strong>${i + 1}. ${d.ok ? "✓ Correcta" : "✗ Para mejorar"}</strong>
+      ${!d.ok ? `<div><span>Tu respuesta:</span> ${d.r ? d.r : "Sin respuesta"}</div>
+      <div><span>Respuesta esperada:</span> ${d.p.respuesta}</div>
+      <small>${d.p.explicacion}</small>` : ""}
+    </div>
+  `).join("");
+
+  const resultadoHtml = `
+    <div class="resultado-modal">
+      <div class="resultado-puntaje">${puntos}<small>/10</small></div>
+      <div class="resultado-porcentaje">${porcentaje}%</div>
+      <p class="resultado-mensaje">${mensaje}</p>
+      <div class="detalle-resultados">${detalleHtml}</div>
+    </div>
+  `;
+
+  const resultadoIntegrado = `
+    <div style="text-align:center; padding:20px;">
+      <h2>${puntos}/10 · ${porcentaje}%</h2>
+      <p style="font-size:16px; margin:15px 0; color:#4a5568;">${mensaje}</p>
+      <div style="text-align:left; margin-top:20px; max-height:300px; overflow-y:auto; padding-right:10px;">
+        ${detalle.map((d, i) => `
+          <p style="margin-bottom:10px; padding:8px; border-radius:6px; background:${d.ok ? '#f0fff4' : '#fff5f5'};">
+            <strong>${i + 1}. ${d.ok ? "✓ Correcta" : "✗ Para mejorar"}</strong><br>
+            ${!d.ok ? `<span style="font-size:13px; color:#e53e3e;">Respuesta esperada: ${d.p.respuesta}. ${d.p.explicacion}</span>` : ""}
+          </p>
+        `).join("")}
+      </div>
+      <button class="btn primary" type="button" onclick="location.reload()" style="margin-top:25px;">Intentar de nuevo</button>
+    </div>
+  `;
+
+  if (contPreguntas) contPreguntas.style.display = "none";
+  if (quizActions) quizActions.style.display = "none";
+  if (quizProgress) quizProgress.style.display = "none";
+
+  if (box) {
+    box.classList.remove("hidden");
+    box.innerHTML = resultadoIntegrado;
+  }
+
+  // Mostrar el resultado en el modal visual existente.
+  if (typeof window.mostrarModalEvaluacion === "function") {
+    window.mostrarModalEvaluacion("Resultado de la evaluación", resultadoHtml, puntos >= 6 ? "exito" : "info");
+  }
+
+  if (box) box.scrollIntoView({ behavior: "smooth", block: "center" });
 }

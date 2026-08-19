@@ -1,0 +1,19 @@
+
+@media(max-width:850px){
+  .hero{grid-template-columns:1fr;padding-top:55px;min-height:auto}
+  .cards.four{grid-template-columns:1fr 1fr}
+  .lab-grid{grid-template-columns:1fr}
+  .tarjeta-ejemplo{grid-template-columns:1fr}
+  .dark-panel{align-items:flex-start;flex-direction:column}
+  .topbar nav a{padding:8px;font-size:.8rem}
+}
+@media(max-width:560px){
+  .cards.four{grid-template-columns:1fr}
+  .topbar{min-height:auto;padding:12px 14px;gap:8px;align-items:flex-start}
+  .topbar nav{flex-wrap:wrap;justify-content:flex-end}
+  .topbar nav a{padding:7px 8px}
+  .formula-flow{justify-content:center}
+  .two{grid-template-columns:1fr}
+  .converter-card,.chart-card,.quiz-shell,.challenge{padding:20px}
+  .page-hero{padding-top:55px}
+}

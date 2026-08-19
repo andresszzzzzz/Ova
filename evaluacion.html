@@ -29,15 +29,22 @@
           <div><i id="barra-progreso"></i></div>
         </div>
         <div id="contenedor-preguntas"></div>
-        <div class="quiz-actions"><button id="anterior" class="btn ghost" type="button">← Anterior</button><button
-            id="siguiente" class="btn primary" type="button">Siguiente →</button><button id="boton-calificar"
-            class="btn primary hidden" type="button">Finalizar evaluación</button></div>
+
+        <!-- Contenedor de resultado integrado correctamente en el flujo -->
         <div id="resultado-final" class="result-final hidden"></div>
+
+        <div class="quiz-actions">
+          <button id="anterior" class="btn ghost" type="button">← Anterior</button>
+          <button id="siguiente" class="btn primary" type="button">Siguiente →</button>
+          <button id="boton-calificar" class="btn primary hidden" type="button">Finalizar evaluación</button>
+        </div>
       </div>
     </section>
   </main>
   <footer>OVA Física · Conversión de magnitudes · SENA ADSO</footer>
+
   <script src="js/evaluacion.js"></script>
+  <script src="js/interacciones.js"></script>
 </body>
 
 </html>
