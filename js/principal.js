@@ -2,15 +2,35 @@ const ETIQUETAS_MAGNITUD = { tiempo: "Tiempo", longitud: "Longitud", masa: "Masa
 
 document.addEventListener("DOMContentLoaded", () => {
   inicializarPestanasMagnitud();
+  actualizarGuiaConversion(document.querySelector('.boton-pestana[aria-selected="true"]')?.dataset.magnitud || 'tiempo');
   inicializarConversorInteractivo();
   inicializarEjemplosResueltos();
   inicializarReto();
 });
 
+function actualizarGuiaConversion(magnitud) {
+  const titulo = document.getElementById("guia-magnitud-titulo");
+  const multiplica = document.getElementById("guia-multiplica-ejemplo");
+  const divide = document.getElementById("guia-divide-ejemplo");
+  if (!titulo || !multiplica || !divide) return;
+
+  const datos = {
+    tiempo: { nombre: "Tiempo", grande: "horas → minutos", pequena: "minutos → horas" },
+    longitud: { nombre: "Longitud", grande: "metros → centímetros", pequena: "centímetros → metros" },
+    masa: { nombre: "Masa", grande: "kilogramos → gramos", pequena: "gramos → kilogramos" },
+    volumen: { nombre: "Volumen", grande: "litros → mililitros", pequena: "mililitros → litros" }
+  }[magnitud] || { nombre: "Conversión", grande: "unidad grande → unidad pequeña", pequena: "unidad pequeña → unidad grande" };
+
+  titulo.textContent = datos.nombre;
+  multiplica.textContent = "Ejemplo: " + datos.grande + ".";
+  divide.textContent = "Ejemplo: " + datos.pequena + ".";
+}
+
 function inicializarPestanasMagnitud() {
   document.querySelectorAll(".boton-pestana").forEach(btn => {
     btn.addEventListener("click", () => {
       const mag = btn.dataset.magnitud;
+      actualizarGuiaConversion(mag);
       document.querySelectorAll(".boton-pestana").forEach(b => b.setAttribute("aria-selected", "false"));
       btn.setAttribute("aria-selected", "true");
       document.querySelectorAll(".panel-magnitud").forEach(p => p.classList.remove("panel-activo"));
@@ -18,7 +38,7 @@ function inicializarPestanasMagnitud() {
       if (panel) {
         panel.classList.add("panel-activo");
         panel.querySelectorAll("[data-ejemplo-canvas]").forEach(c => animarBarras(c.id,
-          parseFloat(c.dataset.valorOrigen), parseFloat(c.dataset.valorDestino), c.dataset.etiquetaOrigen, c.dataset.etiquetaDestino));
+          parseFloat(c.dataset.valorOrigen), parseFloat(c.dataset.valorDestino), c.dataset.etiquetaOrigen, c.dataset.etiquetaDestino, null, mag));
       }
     });
   });
@@ -44,14 +64,14 @@ function inicializarConversorInteractivo() {
     const convertido = convertir(mag.value, valor, u1, u2);
     result.textContent = formatearNumero(convertido) + " " + u2; msg.textContent = "";
     const base = valor * FACTORES[mag.value].unidades[u1].factor;
-    animarBarras("lienzo-conversor", valor, convertido, u1 + " · " + formatearNumero(valor), u2 + " · " + formatearNumero(convertido), base);
+    animarBarras("lienzo-conversor", valor, convertido, u1 + " · " + formatearNumero(valor), u2 + " · " + formatearNumero(convertido), base, mag.value, u1, u2);
   }
   mag.addEventListener("change", actualizar); ori.addEventListener("change", recalcular); des.addEventListener("change", recalcular); input.addEventListener("input", recalcular);
   document.querySelectorAll(".quick button").forEach(b => b.addEventListener("click", () => { input.value = b.dataset.valor; recalcular() }));
   actualizar();
 }
 function inicializarEjemplosResueltos() {
-  document.querySelectorAll("[data-ejemplo-canvas]").forEach(c => animarBarras(c.id, parseFloat(c.dataset.valorOrigen), parseFloat(c.dataset.valorDestino), c.dataset.etiquetaOrigen, c.dataset.etiquetaDestino));
+  document.querySelectorAll("[data-ejemplo-canvas]").forEach(c => { const panel = c.closest(".panel-magnitud"); const mag = panel?.id?.replace("panel-", "") || ""; animarBarras(c.id, parseFloat(c.dataset.valorOrigen), parseFloat(c.dataset.valorDestino), c.dataset.etiquetaOrigen, c.dataset.etiquetaDestino, null, mag); });
 }
 function inicializarReto() {
   const b = document.getElementById("btn-reto"), r = document.getElementById("respuesta-reto"); if (!b) return;

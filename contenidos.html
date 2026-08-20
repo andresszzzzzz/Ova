@@ -38,6 +38,25 @@
         <button class="boton-pestana" role="tab" aria-selected="false" data-magnitud="volumen">Volumen</button>
       </div>
 
+      <div class="guia-conversion" aria-label="Regla para decidir si multiplicar o dividir">
+        <div class="guia-conversion-cabecera">
+          <span class="etiqueta-paso">Regla rápida</span>
+          <strong id="guia-magnitud-titulo">Tiempo</strong>
+        </div>
+        <div class="guia-conversion-grid">
+          <article>
+            <span class="guia-operacion">× Multiplica</span>
+            <p>Cuando pasas de una unidad <strong>grande a una más pequeña</strong>.</p>
+            <small id="guia-multiplica-ejemplo">Ejemplo: horas → minutos.</small>
+          </article>
+          <article>
+            <span class="guia-operacion">÷ Divide</span>
+            <p>Cuando pasas de una unidad <strong>pequeña a una más grande</strong>.</p>
+            <small id="guia-divide-ejemplo">Ejemplo: minutos → horas.</small>
+          </article>
+        </div>
+      </div>
+
       <!-- PANEL TIEMPO -->
       <div id="panel-tiempo" class="panel-magnitud panel-activo" role="tabpanel">
         <table class="tabla-equivalencias">
