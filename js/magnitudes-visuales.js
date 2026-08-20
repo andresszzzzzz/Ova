@@ -62,7 +62,10 @@
       factorOrigen: Number(opciones.factorOrigen),
       factorDestino: Number(opciones.factorDestino),
       velocidadVisual: 1,
-      arrastrando: false
+      arrastrando: false,
+      ancho: 760,
+      alto: 250,
+      dpr: 1
     };
     if (!Number.isFinite(estado.valorBase)) estado.valorBase = estado.valor;
     actualizarRitmoVisual(estado, magnitud);
@@ -70,8 +73,9 @@
     ESTADOS.set(canvas, estado);
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const ancho = canvas.clientWidth || 760;
-    const alto = canvas.clientHeight || 250;
+    const ancho = Math.max(220, canvas.clientWidth || 760);
+    const alto = Math.max(180, canvas.clientHeight || 250);
+    estado.ancho = ancho; estado.alto = alto; estado.dpr = dpr;
     canvas.width = Math.round(ancho * dpr);
     canvas.height = Math.round(alto * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -86,12 +90,14 @@
       const tiempo = (t - inicio) / 1000;
       const tiempoVisual = tiempo * estado.velocidadVisual;
       const valorActual = estado.valor;
+      const w = estado.ancho || ancho;
+      const h = estado.alto || alto;
 
-      if (magnitud === 'tiempo') dibujarTiempo(ctx, ancho, alto, tiempoVisual, valorActual, estado);
-      if (magnitud === 'longitud') dibujarLongitud(ctx, ancho, alto, tiempoVisual, valorActual, estado);
-      if (magnitud === 'masa' && !window.Matter) dibujarMasaFallback(ctx, ancho, alto, tiempoVisual, valorActual, estado);
-      if (magnitud === 'volumen' && !window.Matter) dibujarVolumenFallback(ctx, ancho, alto, tiempoVisual, valorActual, estado);
-      if (magnitud === 'masa' || magnitud === 'volumen') dibujarMatter(ctx, estado, ancho, alto, magnitud, valorActual);
+      if (magnitud === 'tiempo') dibujarTiempo(ctx, w, h, tiempoVisual, valorActual, estado);
+      if (magnitud === 'longitud') dibujarLongitud(ctx, w, h, tiempoVisual, valorActual, estado);
+      if (magnitud === 'masa' && !window.Matter) dibujarMasaFallback(ctx, w, h, tiempoVisual, valorActual, estado);
+      if (magnitud === 'volumen' && !window.Matter) dibujarVolumenFallback(ctx, w, h, tiempoVisual, valorActual, estado);
+      if (magnitud === 'masa' || magnitud === 'volumen') dibujarMatter(ctx, estado, w, h, magnitud, valorActual);
 
       estado.raf = requestAnimationFrame(frame);
     }
@@ -101,6 +107,30 @@
       entries.forEach(e => { estado.activo = e.isIntersecting || estado.activo; });
     });
     observador.observe(canvas);
+
+    // Mantiene el lienzo realmente responsive: al cambiar el ancho disponible
+    // (móvil, tablet, rotación o cambio de panel) se actualiza su resolución
+    // interna para que el dibujo y el arrastre sigan coincidiendo con la pantalla.
+    const redimensionar = () => {
+      const nuevoAncho = Math.max(220, Math.round(canvas.clientWidth || 760));
+      const nuevoAlto = Math.max(180, Math.round(canvas.clientHeight || 250));
+      const nuevoDpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (nuevoAncho === estado.ancho && nuevoAlto === estado.alto && nuevoDpr === estado.dpr) return;
+      estado.ancho = nuevoAncho;
+      estado.alto = nuevoAlto;
+      estado.dpr = nuevoDpr;
+      canvas.width = Math.round(nuevoAncho * nuevoDpr);
+      canvas.height = Math.round(nuevoAlto * nuevoDpr);
+      ctx.setTransform(nuevoDpr, 0, 0, nuevoDpr, 0, 0);
+    };
+    if ('ResizeObserver' in window) {
+      const resizeObserver = new ResizeObserver(redimensionar);
+      resizeObserver.observe(canvas);
+      estado.resizeObserver = resizeObserver;
+    } else {
+      window.addEventListener('resize', redimensionar, { passive: true });
+      estado.resizeHandler = redimensionar;
+    }
   }
 
   function actualizarRitmoVisual(estado, magnitud) {

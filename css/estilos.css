@@ -1,7 +1,6 @@
 
 @import url("variables.css");
 @import url("animaciones.css");
-@import url("responsive.css");
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -202,3 +201,89 @@ footer{text-align:center;padding:35px;color:#7b8491;font-size:.85rem}
 @keyframes pulsoEscena{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.06) rotate(-2deg)}}
 @keyframes orbitarEscena{from{transform:rotate(0deg) translateX(0)}to{transform:rotate(360deg) translateX(15px)}}
 @media(max-width:700px){.escena-cabecera{align-items:flex-start}.escena-chip{display:none}.escena-cabecera small{font-size:.72rem}.canvas-magnitud{height:210px}.chart-card>.escena-magnitud .canvas-magnitud{height:210px}}
+
+/* ===== RESPONSIVIDAD FINAL ===== */
+/* Responsive global: conserva la lógica y adapta únicamente la presentación. */
+
+@media (max-width: 1000px){
+  .hero{grid-template-columns:1fr;padding-top:60px;min-height:auto}
+  .hero-orbit{width:min(360px,72vw)}
+  .lab-grid{grid-template-columns:1fr}
+  .tarjeta-ejemplo{grid-template-columns:1fr}
+  .dark-panel{align-items:flex-start;flex-direction:column}
+}
+
+@media (max-width: 850px){
+  .topbar{padding-inline:20px}
+  .topbar nav{flex-wrap:wrap;justify-content:flex-end}
+  .topbar nav a{padding:8px 9px;font-size:.82rem}
+  .cards.four{grid-template-columns:1fr 1fr}
+  .section{padding-inline:24px}
+  .page-hero{padding-inline:24px}
+  .pestanas-magnitud{gap:7px}
+  .boton-pestana{padding:10px 14px}
+  .result-box{gap:14px;align-items:flex-start;flex-wrap:wrap}
+}
+
+@media (max-width: 700px){
+  .topbar{position:relative;min-height:auto;flex-direction:column;align-items:stretch;padding:10px 16px}
+  .brand{justify-content:center}
+  .topbar nav{width:100%;justify-content:center;gap:4px}
+  .topbar nav a{padding:8px 9px;font-size:.8rem}
+
+  .hero{padding:42px 20px;gap:28px}
+  .hero h1,.page-hero h1{font-size:clamp(2.15rem,11vw,3.4rem)}
+  .hero p{font-size:1rem}
+  .hero-orbit{width:min(300px,84vw)}
+
+  .section{padding:48px 16px}
+  .page-hero{padding:48px 16px 24px}
+  .section h2{font-size:clamp(1.8rem,8vw,2.6rem)}
+
+  .cards.four{grid-template-columns:1fr}
+  .two,.guia-conversion-grid{grid-template-columns:1fr}
+  .tarjeta-ejemplo{grid-template-columns:1fr;padding:16px;gap:14px}
+  .tarjeta-ejemplo h4{font-size:1rem;line-height:1.35}
+
+  .converter-card,.chart-card,.quiz-shell,.challenge{padding:18px}
+  .lab-grid{gap:14px}
+  .escena-magnitud{padding:12px;border-radius:18px}
+  .escena-cabecera{align-items:flex-start}
+  .escena-cabecera > div{min-width:0}
+  .escena-cabecera strong,.escena-cabecera small{overflow-wrap:anywhere}
+  .escena-chip{display:none}
+  .canvas-magnitud{height:clamp(190px,42vw,230px);min-height:190px}
+  .chart-card>.escena-magnitud .canvas-magnitud{height:clamp(190px,42vw,230px)}
+
+  .tabla-equivalencias{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+  .tabla-equivalencias caption{white-space:normal}
+  .tabla-equivalencias th,.tabla-equivalencias td{padding:11px 12px}
+
+  .formula-flow{justify-content:center}
+  .formula-flow span{padding:11px 13px}
+  .quick{gap:6px}
+  .quick button{padding:8px 10px}
+  .quiz-actions{justify-content:stretch}
+  .quiz-actions .btn{width:100%}
+  .result-final h2{font-size:1.9rem}
+  .detalle-resultados{max-height:260px}
+}
+
+@media (max-width: 430px){
+  .topbar nav a{font-size:.74rem;padding:7px 6px}
+  .hero{padding-inline:14px}
+  .section{padding-inline:12px}
+  .page-hero{padding-inline:12px}
+  .converter-card,.chart-card,.quiz-shell,.challenge{padding:14px}
+  .guia-conversion{padding:14px}
+  .guia-conversion-grid article{padding:13px}
+  .escena-magnitud{padding:10px}
+  .escena-icono{width:38px;height:38px;font-size:1.2rem}
+  .escena-cabecera small{font-size:.7rem}
+  .canvas-magnitud{height:190px;min-height:180px}
+  .chart-card>.escena-magnitud .canvas-magnitud{height:190px}
+  .lienzo-ejemplo{height:170px;min-height:170px}
+  .two{gap:8px}
+  .field input,.field select{font-size:16px}
+}
+
